@@ -1,0 +1,101 @@
+name: Enterprise CI/CD Pipeline
+
+on:
+  push:
+    branches: [ main ]
+  workflow_dispatch:
+
+jobs:
+  # =========================================================
+  # 1. CI: Static Code Analysis & Syntax Validation
+  # =========================================================
+  lint:
+    name: "CI / Code Quality & Lint"
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+      - name: Install Dependencies
+        run: |
+          cd app && npm ci
+      - name: Syntax & Lint Verification
+        run: |
+          cd app && npm run lint
+
+  # =========================================================
+  # 2. CI: Automated Test Suite & Coverage Artifacts
+  # =========================================================
+  test:
+    name: "CI / Unit & Integration Tests"
+    needs: lint
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+      - name: Install Dependencies
+        run: |
+          cd app && npm ci
+      - name: Execute Tests & Generate Coverage
+        run: |
+          cd app && npm run test:ci
+      - name: Archive Code Coverage Artifacts
+        uses: actions/upload-artifact@v4
+        with:
+          name: taskpulse-coverage
+          path: app/coverage/
+          retention-days: 7
+
+  # =========================================================
+  # 3. CD: Multi-Stage Container Build & Registry Packaging
+  # =========================================================
+  build-container:
+    name: "CD / Multi-Stage Docker Packaging"
+    needs: test
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Build Production Image
+        run: |
+          docker build -t taskpulse-api:v1.0.0 -t taskpulse-api:latest .
+      - name: Inspect Container Security Profile
+        run: |
+          docker image inspect taskpulse-api:v1.0.0 --format 'User: {{.Config.User}} | Env: {{.Config.Env}}'
+
+  # =========================================================
+  # 4. CD: Kubernetes Deployment & Zero-Downtime Rollout
+  # =========================================================
+  deploy-cluster:
+    name: "CD / Deploy to Kubernetes Cluster"
+    needs: build-container
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Apply Namespace & Workloads
+        run: |
+          kubectl create namespace cicd-demo --dry-run=client -o yaml | kubectl apply -f -
+          kubectl apply -f k8s/
+      - name: Verify Rolling Update Rollout
+        run: |
+          kubectl rollout status deployment/taskpulse-api -n cicd-demo --timeout=60s
+
+  # =========================================================
+  # 5. CD: Post-Deployment Smoke Verification & Health Probe
+  # =========================================================
+  smoke-test:
+    name: "CD / Smoke Test & Endpoint Verification"
+    needs: deploy-cluster
+    runs-on: ubuntu-latest
+    steps:
+      - name: Run HTTP Verification
+        run: |
+          echo "[+] Checking running pods and services in cicd-demo..."
+          kubectl get pods,svc -n cicd-demo -l app=taskpulse-api
+          POD_NAME=$(kubectl get pods -n cicd-demo -l app=taskpulse-api -o jsonpath="{.items[0].metadata.name}")
+          kubectl exec "$POD_NAME" -n cicd-demo -- wget -qO- http://127.0.0.1:3000/
+          kubectl exec "$POD_NAME" -n cicd-demo -- wget -qO- http://127.0.0.1:3000/health

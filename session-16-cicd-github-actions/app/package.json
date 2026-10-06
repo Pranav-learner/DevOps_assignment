@@ -1,0 +1,35 @@
+{
+  "name": "taskpulse-api",
+  "version": "1.0.0",
+  "description": "Production-grade CI/CD demo microservice with GitHub Actions",
+  "main": "src/server.js",
+  "scripts": {
+    "start": "node src/server.js",
+    "test": "jest --coverage --detectOpenHandles --forceExit",
+    "test:ci": "jest --ci --coverage --reporters=default --detectOpenHandles --forceExit",
+    "lint": "node -c src/*.js tests/*.js"
+  },
+  "keywords": [
+    "devops",
+    "cicd",
+    "github-actions",
+    "express",
+    "jest"
+  ],
+  "author": "Pranav Gupta <24bcs10237@cuchd.in>",
+  "license": "MIT",
+  "dependencies": {
+    "express": "^4.21.2"
+  },
+  "devDependencies": {
+    "jest": "^29.7.0",
+    "supertest": "^7.0.0"
+  },
+  "jest": {
+    "testEnvironment": "node",
+    "coverageDirectory": "coverage",
+    "collectCoverageFrom": [
+      "src/**/*.js"
+    ]
+  }
+}

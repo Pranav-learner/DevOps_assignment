@@ -1,6 +1,6 @@
 # DevOps Homework — Section B
 
-All fourteen DevOps homework tasks, each in its own folder with its own `README.md`.
+All fifteen DevOps homework tasks, each in its own folder with its own `README.md`.
 
 | | |
 |---|---|
@@ -29,6 +29,7 @@ The submission form has one field per topic. Each links to that topic's `README.
 | 12 | **Kubernetes Storage, HPA & Probes** | [`session-13-storage-hpa-probes/`](session-13-storage-hpa-probes/README.md) | Session 13: Kubernetes Storage, HPA & Probes |
 | 13 | **Kubernetes Troubleshooting** | [`session-14-kubernetes-troubleshooting/`](session-14-kubernetes-troubleshooting/README.md) | Session 14 — Kubernetes Troubleshooting |
 | 14 | **Helm** | [`session-15-helm/`](session-15-helm/README.md) | Session 15 — Helm |
+| 15 | **CI/CD & GitHub Actions** | [`session-16-cicd-github-actions/`](session-16-cicd-github-actions/README.md) | Session 16 — CI/CD & GitHub Actions |
 
 ---
 
@@ -75,6 +76,9 @@ All **Session 14 diagnostic commands, common failure mode playbooks, and the inc
 
 ### 14. [Helm](session-15-helm/README.md)
 All **Session 15 package management tasks, rollback lifecycles, and enterprise mini-project** executed on Minikube with Helm v3.17.1. Highlights: **Helm CLI mastery** across all 11 core commands (`helm repo`, `helm search`, `helm create`, `helm install`, `helm list`, `helm status`, `helm get`, `helm upgrade`, `helm history`, `helm rollback`, and `helm uninstall`); **Complete Rollback Lifecycle Drill** ($v1 \to v2 \to \text{Verify} \to v3\text{ [Broken]} \to \text{Verify Degradation} \to \text{Rollback to } v2 \to \text{Verify Recovery}$) proving zero-downtime automated recovery from faulty releases; and the **CloudStore Platform Mini-Project** — enterprise multi-tier e-commerce Helm chart featuring decoupled ConfigMaps, encrypted Secrets, Layer 7 Ingress routing, dual health probes, Horizontal Pod Autoscaler (HPA v2 with CPU/memory targets), multi-environment profiles (`values-staging.yaml`, `values-prod.yaml`), automated scripts, and live HTTP verification tests. 16 terminal screenshots.
+
+### 15. [CI/CD & GitHub Actions](session-16-cicd-github-actions/README.md)
+Complete **CI/CD demo project powered by GitHub Actions** covering full theoretical depth (CI vs CD comparison, workflow architecture, jobs, runners, steps, secrets, artifacts, build, test, pipeline execution) and a hardened Node.js microservice (`TaskPulse API`). Highlights: **Continuous Integration (CI)** running static syntax linting, Jest unit tests, Supertest REST integration tests with **94.28% statement coverage**, and uploading coverage report artifacts; **Continuous Deployment (CD)** building a hardened multi-stage Docker container (non-root `node` user, built-in container healthchecks), registering image with GitHub Secrets, deploying to Minikube Kubernetes cluster in namespace `cicd-demo`, waiting for zero-downtime rollout completion, and verifying live HTTP endpoint traffic (`/` and `/health`). 8 terminal screenshots.
 
 ---
 
