@@ -1,0 +1,24 @@
+{
+  "policyName": "Enterprise-DevSecOps-Strict-Gate",
+  "version": "1.0.0",
+  "enforcement": "BLOCKING",
+  "thresholds": {
+    "sast": {
+      "maxCritical": 0,
+      "maxHigh": 0
+    },
+    "sca": {
+      "maxCritical": 0,
+      "maxHigh": 0
+    },
+    "secretScan": {
+      "maxLeaksAllowed": 0
+    },
+    "containerScan": {
+      "maxCritical": 0,
+      "maxHigh": 0
+    }
+  },
+  "exceptions": [],
+  "auditContact": "security-team@vaultshield.local"
+}

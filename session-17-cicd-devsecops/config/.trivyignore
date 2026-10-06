@@ -1,0 +1,3 @@
+# Trivy Ignore File for VaultShield API
+# Accepted risks or false positives reviewed by AppSec Team
+# Format: CVE-ID or Misconfiguration-ID

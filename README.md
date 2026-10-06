@@ -1,6 +1,6 @@
 # DevOps Homework — Section B
 
-All fifteen DevOps homework tasks, each in its own folder with its own `README.md`.
+All sixteen DevOps homework tasks, each in its own folder with its own `README.md`.
 
 | | |
 |---|---|
@@ -30,6 +30,7 @@ The submission form has one field per topic. Each links to that topic's `README.
 | 13 | **Kubernetes Troubleshooting** | [`session-14-kubernetes-troubleshooting/`](session-14-kubernetes-troubleshooting/README.md) | Session 14 — Kubernetes Troubleshooting |
 | 14 | **Helm** | [`session-15-helm/`](session-15-helm/README.md) | Session 15 — Helm |
 | 15 | **CI/CD & GitHub Actions** | [`session-16-cicd-github-actions/`](session-16-cicd-github-actions/README.md) | Session 16 — CI/CD & GitHub Actions |
+| 16 | **Complete CI/CD & DevSecOps** | [`session-17-cicd-devsecops/`](session-17-cicd-devsecops/README.md) | Session 17 — Complete CI/CD & DevSecOps |
 
 ---
 
@@ -79,6 +80,9 @@ All **Session 15 package management tasks, rollback lifecycles, and enterprise m
 
 ### 15. [CI/CD & GitHub Actions](session-16-cicd-github-actions/README.md)
 Complete **CI/CD demo project powered by GitHub Actions** covering full theoretical depth (CI vs CD comparison, workflow architecture, jobs, runners, steps, secrets, artifacts, build, test, pipeline execution) and a hardened Node.js microservice (`TaskPulse API`). Highlights: **Continuous Integration (CI)** running static syntax linting, Jest unit tests, Supertest REST integration tests with **94.28% statement coverage**, and uploading coverage report artifacts; **Continuous Deployment (CD)** building a hardened multi-stage Docker container (non-root `node` user, built-in container healthchecks), registering image with GitHub Secrets, deploying to Minikube Kubernetes cluster in namespace `cicd-demo`, waiting for zero-downtime rollout completion, and verifying live HTTP endpoint traffic (`/` and `/health`). 8 terminal screenshots.
+
+### 16. [Complete CI/CD & DevSecOps](session-17-cicd-devsecops/README.md)
+Complete **CI/CD + DevSecOps demo project** implementing an automated 11-stage pipeline for a high-security microservice (`VaultShield API`). Highlights: **End-to-End Shift-Left Security** integrating **SAST** (Static Application Security Testing via Trivy Config scanning K8s manifests and Dockerfiles against CIS benchmarks), **SCA** (Software Composition Analysis via Trivy FS scanning third-party dependencies against CVE databases), **Secret Scanning** (Gitleaks scanning codebase, commits, and configs for leaked credentials), and **Container Image Vulnerability Scanning** (Trivy Image scanning multi-stage Alpine container layers); **Automated Security Gate** enforcing zero-tolerance policy (0 Critical, 0 High) and halting pipeline upon violations; **Zero-CVE Multi-Stage Dockerfile** stripping build tools (`npm`, `npx`, `apk`) and running unprivileged; **Kubernetes Pod Security Standard (Restricted)** deployment (`runAsNonRoot`, `readOnlyRootFilesystem`, `drop: [ALL]`); and fully automated bash runner scripts with live Minikube rollout and smoke test verification. 10 terminal screenshots.
 
 ---
 

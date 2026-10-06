@@ -1,0 +1,19 @@
+# Gitleaks Configuration for DevSecOps Secret Detection
+title = "VaultShield DevSecOps Secret Scanning Policy"
+
+[extend]
+useDefault = true
+
+[allowlist]
+description = "Global allowlist for test fixtures and documentation"
+paths = [
+  '''app/tests/.*''',
+  '''screenshots/.*''',
+  '''package-lock\.json''',
+  '''\.gitignore'''
+]
+regexes = [
+  '''vaultshield-static-salt''',
+  '''SecurePass123!''',
+  '''TopSecretToken'''
+]
