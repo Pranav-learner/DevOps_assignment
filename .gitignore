@@ -78,3 +78,11 @@ scratch/
 
 # Incompatible cross-platform paths / symlinks (contains colons invalid on Windows/NTFS)
 Session 13: Kubernetes Storage, HPA & Probes
+
+# Terraform
+**/.terraform/
+*.tfstate
+*.tfstate.*
+*.tfstate.backup
+crash.log
+crash.*.log

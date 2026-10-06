@@ -31,6 +31,7 @@ The submission form has one field per topic. Each links to that topic's `README.
 | 14 | **Helm** | [`session-15-helm/`](session-15-helm/README.md) | Session 15 — Helm |
 | 15 | **CI/CD & GitHub Actions** | [`session-16-cicd-github-actions/`](session-16-cicd-github-actions/README.md) | Session 16 — CI/CD & GitHub Actions |
 | 16 | **Complete CI/CD & DevSecOps** | [`session-17-cicd-devsecops/`](session-17-cicd-devsecops/README.md) | Session 17 — Complete CI/CD & DevSecOps |
+| 17 | **Terraform & Infrastructure as Code** | [`session-18-terraform-iac/`](session-18-terraform-iac/README.md) | Session 18 — Terraform & Infrastructure as Code |
 
 ---
 
@@ -83,6 +84,9 @@ Complete **CI/CD demo project powered by GitHub Actions** covering full theoreti
 
 ### 16. [Complete CI/CD & DevSecOps](session-17-cicd-devsecops/README.md)
 Complete **CI/CD + DevSecOps demo project** implementing an automated 11-stage pipeline for a high-security microservice (`VaultShield API`). Highlights: **End-to-End Shift-Left Security** integrating **SAST** (Static Application Security Testing via Trivy Config scanning K8s manifests and Dockerfiles against CIS benchmarks), **SCA** (Software Composition Analysis via Trivy FS scanning third-party dependencies against CVE databases), **Secret Scanning** (Gitleaks scanning codebase, commits, and configs for leaked credentials), and **Container Image Vulnerability Scanning** (Trivy Image scanning multi-stage Alpine container layers); **Automated Security Gate** enforcing zero-tolerance policy (0 Critical, 0 High) and halting pipeline upon violations; **Zero-CVE Multi-Stage Dockerfile** stripping build tools (`npm`, `npx`, `apk`) and running unprivileged; **Kubernetes Pod Security Standard (Restricted)** deployment (`runAsNonRoot`, `readOnlyRootFilesystem`, `drop: [ALL]`); and fully automated bash runner scripts with live Minikube rollout and smoke test verification. 10 terminal screenshots.
+
+### 17. [Terraform & Infrastructure as Code](session-18-terraform-iac/README.md)
+Complete **Terraform IaC and AWS Cloud Architecture research project**. Highlights: **Terraform S3 Demo project** (`terraform-s3-demo/`) provisioning an enterprise-grade AWS S3 bucket with S3 Versioning, Server-Side Encryption (SSE-S3 AES-256), and S3 Public Access Block; complete lifecycle execution across all 8 Terraform phases (`terraform init`, `terraform fmt`, `terraform validate`, `terraform plan`, `terraform apply`, `terraform show`, `terraform output`, and `terraform destroy`) captured with live terminal execution evidence and clean state verification; and comprehensive deep-dive **AWS Cloud Services Research** (`aws-services/`) spanning **01. IAM** (Governance, Users, Groups, Roles, Policies, Least Privilege, Cross-account access), **02. EC2** (Compute, AMIs, Instance Types, Key Pairs, Security Groups, EBS, Lifecycle), **03. S3** (Storage classes, Versioning, Lifecycle policies, Encryption, Bucket policies), **04. VPC** (Networking, CIDR, Subnets, Route Tables, IGW, NAT Gateway, Security Groups vs NACLs), and **05. DynamoDB & RDS** (NoSQL vs Relational, Multi-AZ high availability, Read Replicas, Backups). 8 terminal screenshots.
 
 ---
 
