@@ -32,6 +32,7 @@ The submission form has one field per topic. Each links to that topic's `README.
 | 15 | **CI/CD & GitHub Actions** | [`session-16-cicd-github-actions/`](session-16-cicd-github-actions/README.md) | Session 16 — CI/CD & GitHub Actions |
 | 16 | **Complete CI/CD & DevSecOps** | [`session-17-cicd-devsecops/`](session-17-cicd-devsecops/README.md) | Session 17 — Complete CI/CD & DevSecOps |
 | 17 | **Terraform & Infrastructure as Code** | [`session-18-terraform-iac/`](session-18-terraform-iac/README.md) | Session 18 — Terraform & Infrastructure as Code |
+| 18 | **Cloud & Terraform in Action** | [`session-19-cloud-terraform-in-action/`](session-19-cloud-terraform-in-action/README.md) | Session 19 — Cloud & Terraform in Action |
 
 ---
 
@@ -87,6 +88,9 @@ Complete **CI/CD + DevSecOps demo project** implementing an automated 11-stage p
 
 ### 17. [Terraform & Infrastructure as Code](session-18-terraform-iac/README.md)
 Complete **Terraform IaC and AWS Cloud Architecture research project**. Highlights: **Terraform S3 Demo project** (`terraform-s3-demo/`) provisioning an enterprise-grade AWS S3 bucket with S3 Versioning, Server-Side Encryption (SSE-S3 AES-256), and S3 Public Access Block; complete lifecycle execution across all 8 Terraform phases (`terraform init`, `terraform fmt`, `terraform validate`, `terraform plan`, `terraform apply`, `terraform show`, `terraform output`, and `terraform destroy`) captured with live terminal execution evidence and clean state verification; and comprehensive deep-dive **AWS Cloud Services Research** (`aws-services/`) spanning **01. IAM** (Governance, Users, Groups, Roles, Policies, Least Privilege, Cross-account access), **02. EC2** (Compute, AMIs, Instance Types, Key Pairs, Security Groups, EBS, Lifecycle), **03. S3** (Storage classes, Versioning, Lifecycle policies, Encryption, Bucket policies), **04. VPC** (Networking, CIDR, Subnets, Route Tables, IGW, NAT Gateway, Security Groups vs NACLs), and **05. DynamoDB & RDS** (NoSQL vs Relational, Multi-AZ high availability, Read Replicas, Backups). 8 terminal screenshots.
+
+### 18. [Cloud & Terraform in Action](session-19-cloud-terraform-in-action/README.md)
+Complete **End-to-End Cloud Infrastructure as Code (IaC) project** provisioned using HashiCorp Terraform. Highlights: Multi-tier AWS cloud architecture spanning **Virtual Private Cloud (VPC)** (`10.0.0.0/16`), **Public Subnet** (`10.0.1.0/24`), **Internet Gateway (IGW)**, **Public Route Table** and association, stateful **Security Group** (HTTP 80 & SSH 22 ingress, all egress), **Amazon EC2 Compute instance** (`t2.micro`) bootstrapped via Cloud-Init User Data, and **Amazon S3 Object Storage bucket** with Server-Side Encryption (SSE-S3 AES-256), S3 Versioning, and S3 Public Access Block. Explicit resource dependencies demonstrated (`depends_on`), input variables with type constraints, outputs exporting computed endpoints, and complete lifecycle execution across all phases (`terraform init`, `fmt`, `validate`, `plan`, `apply`, `state list`, `state show`, `output`, and `destroy`). 8 terminal screenshots.
 
 ---
 

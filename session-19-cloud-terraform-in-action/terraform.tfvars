@@ -1,0 +1,11 @@
+aws_region         = "us-east-1"
+environment        = "production"
+project_name       = "Cloud-IaC-In-Action"
+vpc_cidr           = "10.0.0.0/16"
+public_subnet_cidr = "10.0.1.0/24"
+availability_zone  = "us-east-1a"
+instance_type      = "t2.micro"
+ami_id             = "ami-0c55b159cbfafe1f0"
+bucket_name        = "devops-session19-cloud-assets"
+enable_versioning  = true
+aws_endpoint       = "http://localhost:5000"
