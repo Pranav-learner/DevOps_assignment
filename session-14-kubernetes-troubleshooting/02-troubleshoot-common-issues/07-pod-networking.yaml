@@ -1,0 +1,43 @@
+# 07. Pod Networking & Port Binding: Broken vs Fixed manifests
+
+# Broken: Python server bound to loopback 127.0.0.1 (inaccessible from other pods/service)
+apiVersion: v1
+kind: Pod
+metadata:
+  name: net-bound-localhost
+  labels:
+    app: net-demo
+spec:
+  containers:
+    - name: server
+      image: python:3.11-alpine
+      command: ["python3", "-c"]
+      args:
+        - |
+          import http.server, socketserver
+          handler = http.server.SimpleHTTPRequestHandler
+          # Binds ONLY to loopback 127.0.0.1
+          with socketserver.TCPServer(("127.0.0.1", 8080), handler) as httpd:
+              print("Server bound to 127.0.0.1:8080")
+              httpd.serve_forever()
+---
+# Fixed: Python server bound to 0.0.0.0 (all interfaces accessible from network)
+apiVersion: v1
+kind: Pod
+metadata:
+  name: net-bound-all
+  labels:
+    app: net-demo
+spec:
+  containers:
+    - name: server
+      image: python:3.11-alpine
+      command: ["python3", "-c"]
+      args:
+        - |
+          import http.server, socketserver
+          handler = http.server.SimpleHTTPRequestHandler
+          # Binds to 0.0.0.0
+          with socketserver.TCPServer(("0.0.0.0", 8080), handler) as httpd:
+              print("Server bound to 0.0.0.0:8080")
+              httpd.serve_forever()

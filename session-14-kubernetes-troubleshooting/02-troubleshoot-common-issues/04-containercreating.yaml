@@ -1,0 +1,48 @@
+# 04. ContainerCreating State: Broken vs Fixed manifests
+
+# Broken: references non-existent ConfigMap in volume mount
+apiVersion: v1
+kind: Pod
+metadata:
+  name: containercreating-broken
+  labels:
+    issue: containercreating
+spec:
+  containers:
+    - name: web
+      image: nginx:alpine
+      volumeMounts:
+        - name: app-config-vol
+          mountPath: /etc/config
+  volumes:
+    - name: app-config-vol
+      configMap:
+        name: non-existent-configmap-v1
+---
+# Supporting ConfigMap to fix the issue
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: app-config-v1
+data:
+  APP_ENV: "production"
+  CONFIG_VERSION: "1.0.0"
+---
+# Fixed: references valid ConfigMap
+apiVersion: v1
+kind: Pod
+metadata:
+  name: containercreating-fixed
+  labels:
+    issue: containercreating
+spec:
+  containers:
+    - name: web
+      image: nginx:alpine
+      volumeMounts:
+        - name: app-config-vol
+          mountPath: /etc/config
+  volumes:
+    - name: app-config-vol
+      configMap:
+        name: app-config-v1

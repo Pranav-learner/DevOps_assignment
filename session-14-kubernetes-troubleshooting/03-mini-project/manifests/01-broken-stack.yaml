@@ -1,0 +1,164 @@
+apiVersion: v1
+kind: Namespace
+metadata:
+  name: shopsphere-incident
+---
+# Bug 1: Database stuck in Pending due to excessive CPU request
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: db-deployment
+  namespace: shopsphere-incident
+  labels:
+    tier: database
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: db
+  template:
+    metadata:
+      labels:
+        app: db
+    spec:
+      containers:
+        - name: postgres
+          image: postgres:17
+          env:
+            - name: POSTGRES_PASSWORD
+              value: "ShopSphereSecurePass123"
+          resources:
+            requests:
+              cpu: 25 # BUG: Exceeds node 12 cores, causing Pending state
+              memory: 128Mi
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: db-service
+  namespace: shopsphere-incident
+spec:
+  ports:
+    - port: 5432
+      targetPort: 5432
+  selector:
+    app: db
+---
+# Bug 2: Cache stuck in ContainerCreating due to missing ConfigMap
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: cache-deployment
+  namespace: shopsphere-incident
+  labels:
+    tier: cache
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: cache
+  template:
+    metadata:
+      labels:
+        app: cache
+    spec:
+      containers:
+        - name: redis
+          image: redis:alpine
+          volumeMounts:
+            - name: config-vol
+              mountPath: /etc/redis
+      volumes:
+        - name: config-vol
+          configMap:
+            name: redis-cluster-missing-config # BUG: Non-existent ConfigMap
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: cache-service
+  namespace: shopsphere-incident
+spec:
+  ports:
+    - port: 6379
+      targetPort: 6379
+  selector:
+    app: cache
+---
+# Bug 3: Backend API in CrashLoopBackOff due to bad command
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: api-deployment
+  namespace: shopsphere-incident
+  labels:
+    tier: backend
+spec:
+  replicas: 2
+  selector:
+    matchLabels:
+      app: api
+  template:
+    metadata:
+      labels:
+        app: api
+    spec:
+      containers:
+        - name: api
+          image: python:3.11-alpine
+          command: ["python3", "-c"]
+          args:
+            - |
+              # BUG: Runtime crash
+              import sys
+              print("FATAL: Database connection failed: DB_HOST not reachable")
+              sys.exit(1)
+---
+# Bug 4: Service selector mismatch causing empty endpoints
+apiVersion: v1
+kind: Service
+metadata:
+  name: api-service
+  namespace: shopsphere-incident
+spec:
+  ports:
+    - port: 8080
+      targetPort: 8080
+  selector:
+    app: api-wrong-selector # BUG: Selector mismatch (Pod has app: api)
+---
+# Frontend web tier attempting to communicate with api-service
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: web-deployment
+  namespace: shopsphere-incident
+  labels:
+    tier: frontend
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: web
+  template:
+    metadata:
+      labels:
+        app: web
+    spec:
+      containers:
+        - name: web
+          image: nginx:alpine
+          ports:
+            - containerPort: 80
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: web-service
+  namespace: shopsphere-incident
+spec:
+  ports:
+    - port: 80
+      targetPort: 80
+  selector:
+    app: web

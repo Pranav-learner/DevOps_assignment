@@ -1,0 +1,33 @@
+# 03. Pending State: Broken vs Fixed manifests
+
+# Broken: Insufficient CPU request
+apiVersion: v1
+kind: Pod
+metadata:
+  name: pending-broken
+  labels:
+    issue: pending
+spec:
+  containers:
+    - name: cpu-hungry
+      image: busybox:latest
+      command: ["sleep", "3600"]
+      resources:
+        requests:
+          cpu: 50
+---
+# Fixed: Realistic CPU request that fits on node
+apiVersion: v1
+kind: Pod
+metadata:
+  name: pending-fixed
+  labels:
+    issue: pending
+spec:
+  containers:
+    - name: cpu-hungry
+      image: busybox:latest
+      command: ["sleep", "3600"]
+      resources:
+        requests:
+          cpu: 50m

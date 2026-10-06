@@ -1,0 +1,25 @@
+# 02. ImagePullBackOff & ErrImagePull: Broken vs Fixed manifests
+
+# Broken: non-existent image tag
+apiVersion: v1
+kind: Pod
+metadata:
+  name: imagepull-broken
+  labels:
+    issue: imagepull
+spec:
+  containers:
+    - name: web
+      image: nginx:v999.invalid.tag
+---
+# Fixed: valid, existing image tag
+apiVersion: v1
+kind: Pod
+metadata:
+  name: imagepull-fixed
+  labels:
+    issue: imagepull
+spec:
+  containers:
+    - name: web
+      image: nginx:alpine

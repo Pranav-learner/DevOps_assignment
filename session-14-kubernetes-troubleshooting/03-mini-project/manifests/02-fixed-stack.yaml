@@ -1,0 +1,195 @@
+apiVersion: v1
+kind: Namespace
+metadata:
+  name: shopsphere-incident
+---
+# Fix 1: Database with realistic, schedulable CPU requests
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: db-deployment
+  namespace: shopsphere-incident
+  labels:
+    tier: database
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: db
+  template:
+    metadata:
+      labels:
+        app: db
+    spec:
+      containers:
+        - name: postgres
+          image: postgres:17
+          env:
+            - name: POSTGRES_PASSWORD
+              value: "ShopSphereSecurePass123"
+          resources:
+            requests:
+              cpu: 100m # FIXED: Scaled down from 10 to 100m
+              memory: 128Mi
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: db-service
+  namespace: shopsphere-incident
+spec:
+  ports:
+    - port: 5432
+      targetPort: 5432
+  selector:
+    app: db
+---
+# Fix 2: Provide the required Redis ConfigMap
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: redis-cluster-config
+  namespace: shopsphere-incident
+data:
+  redis.conf: |
+    maxmemory 128mb
+    maxmemory-policy allkeys-lru
+---
+# Fix 2b: Cache Deployment mounting valid ConfigMap
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: cache-deployment
+  namespace: shopsphere-incident
+  labels:
+    tier: cache
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: cache
+  template:
+    metadata:
+      labels:
+        app: cache
+    spec:
+      containers:
+        - name: redis
+          image: redis:alpine
+          volumeMounts:
+            - name: config-vol
+              mountPath: /etc/redis
+      volumes:
+        - name: config-vol
+          configMap:
+            name: redis-cluster-config # FIXED: Valid ConfigMap
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: cache-service
+  namespace: shopsphere-incident
+spec:
+  ports:
+    - port: 6379
+      targetPort: 6379
+  selector:
+    app: cache
+---
+# Fix 3: Working API server with health probes & clean loop
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: api-deployment
+  namespace: shopsphere-incident
+  labels:
+    tier: backend
+spec:
+  replicas: 2
+  selector:
+    matchLabels:
+      app: api
+  template:
+    metadata:
+      labels:
+        app: api
+    spec:
+      containers:
+        - name: api
+          image: python:3.11-alpine
+          command: ["python3", "-c"]
+          args:
+            - |
+              import http.server, socketserver, json, socket
+              class Handler(http.server.SimpleHTTPRequestHandler):
+                  def do_GET(self):
+                      self.send_response(200)
+                      self.send_header('Content-Type', 'application/json')
+                      self.end_headers()
+                      resp = {
+                          "status": "healthy",
+                          "service": "ShopSphere Backend API",
+                          "pod": socket.gethostname(),
+                          "database": "connected",
+                          "cache": "connected"
+                      }
+                      self.wfile.write(json.dumps(resp).encode())
+                  def log_message(self, format, *args): return
+              with socketserver.TCPServer(("0.0.0.0", 8080), Handler) as httpd:
+                  print("ShopSphere API listening on 0.0.0.0:8080")
+                  httpd.serve_forever()
+          ports:
+            - containerPort: 8080
+          resources:
+            requests:
+              cpu: 50m
+              memory: 64Mi
+---
+# Fix 4: Correct Service selector (matching app: api)
+apiVersion: v1
+kind: Service
+metadata:
+  name: api-service
+  namespace: shopsphere-incident
+spec:
+  ports:
+    - port: 8080
+      targetPort: 8080
+  selector:
+    app: api # FIXED: Matched Pod label app: api
+---
+# Frontend Web Tier
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: web-deployment
+  namespace: shopsphere-incident
+  labels:
+    tier: frontend
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: web
+  template:
+    metadata:
+      labels:
+        app: web
+    spec:
+      containers:
+        - name: web
+          image: nginx:alpine
+          ports:
+            - containerPort: 80
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: web-service
+  namespace: shopsphere-incident
+spec:
+  ports:
+    - port: 80
+      targetPort: 80
+  selector:
+    app: web

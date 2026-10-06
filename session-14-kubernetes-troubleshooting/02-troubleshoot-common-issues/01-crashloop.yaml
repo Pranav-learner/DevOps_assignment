@@ -1,0 +1,29 @@
+# 01. CrashLoopBackOff: Broken vs Fixed manifests
+
+# Broken: references invalid executable
+apiVersion: v1
+kind: Pod
+metadata:
+  name: crashloop-broken
+  labels:
+    issue: crashloop
+spec:
+  containers:
+    - name: worker
+      image: busybox:latest
+      command: ["/bin/sh", "-c"]
+      args: ["/opt/bin/start-production-server.sh --port 8080"]
+---
+# Fixed: executable command that runs cleanly
+apiVersion: v1
+kind: Pod
+metadata:
+  name: crashloop-fixed
+  labels:
+    issue: crashloop
+spec:
+  containers:
+    - name: worker
+      image: busybox:latest
+      command: ["/bin/sh", "-c"]
+      args: ["echo 'Server started successfully' && sleep 3600"]

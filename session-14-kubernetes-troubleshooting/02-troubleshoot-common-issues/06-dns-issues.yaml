@@ -1,0 +1,36 @@
+# 06. DNS Resolution: Demonstration manifests
+
+apiVersion: v1
+kind: Service
+metadata:
+  name: order-service
+spec:
+  ports:
+    - port: 80
+      targetPort: 80
+  selector:
+    app: order-service
+---
+apiVersion: v1
+kind: Pod
+metadata:
+  name: order-service
+  labels:
+    app: order-service
+spec:
+  containers:
+    - name: web
+      image: nginx:alpine
+      ports:
+        - containerPort: 80
+---
+# Client pod to test DNS lookups
+apiVersion: v1
+kind: Pod
+metadata:
+  name: dns-client-tester
+spec:
+  containers:
+    - name: tester
+      image: busybox:latest
+      command: ["sleep", "3600"]

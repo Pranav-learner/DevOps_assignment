@@ -1,0 +1,49 @@
+# 08. Configuration & Secret Binding: Broken vs Fixed manifests
+
+# Broken: References non-existent secret key
+apiVersion: v1
+kind: Pod
+metadata:
+  name: config-broken-pod
+  labels:
+    issue: config
+spec:
+  containers:
+    - name: app
+      image: busybox:latest
+      command: ["sleep", "3600"]
+      env:
+        - name: DB_PASSWORD
+          valueFrom:
+            secretKeyRef:
+              name: app-secret-v1
+              key: NON_EXISTENT_KEY
+---
+# Supporting secret
+apiVersion: v1
+kind: Secret
+metadata:
+  name: app-secret-v1
+type: Opaque
+stringData:
+  CORRECT_DB_KEY: "ValidSecretPassword123"
+---
+# Fixed: References correct secret key
+apiVersion: v1
+kind: Pod
+metadata:
+  name: config-fixed-pod
+  labels:
+    issue: config
+spec:
+  containers:
+    - name: app
+      image: busybox:latest
+      command: ["/bin/sh", "-c"]
+      args: ["echo DB_PASSWORD loaded successfully && sleep 3600"]
+      env:
+        - name: DB_PASSWORD
+          valueFrom:
+            secretKeyRef:
+              name: app-secret-v1
+              key: CORRECT_DB_KEY

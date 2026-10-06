@@ -1,6 +1,6 @@
 # DevOps Homework — Section B
 
-All twelve DevOps homework tasks, each in its own folder with its own `README.md`.
+All thirteen DevOps homework tasks, each in its own folder with its own `README.md`.
 
 | | |
 |---|---|
@@ -27,6 +27,7 @@ The submission form has one field per topic. Each links to that topic's `README.
 | 10 | **Kubernetes Fundamentals** | [`session9-k8s/`](session9-k8s/README.md) | Session 9 — Kubernetes Fundamentals & Architecture |
 | 11 | **Ingress, ConfigMaps & Secrets** | [`session-12-ingress-configmaps-secrets/`](session-12-ingress-configmaps-secrets/README.md) | Session 12 — ConfigMaps, Secrets & Ingress |
 | 12 | **Kubernetes Storage, HPA & Probes** | [`session-13-storage-hpa-probes/`](session-13-storage-hpa-probes/README.md) | Session 13: Kubernetes Storage, HPA & Probes |
+| 13 | **Kubernetes Troubleshooting** | [`session-14-kubernetes-troubleshooting/`](session-14-kubernetes-troubleshooting/README.md) | Session 14 — Kubernetes Troubleshooting |
 
 ---
 
@@ -67,6 +68,9 @@ All **14 Session 12 tasks** executed on Minikube with the NGINX Ingress Controll
 
 ### 12. [Kubernetes Storage, HPA & Probes](session-13-storage-hpa-probes/README.md)
 All **Session 13 tasks and mini-project** executed on Minikube. Highlights: **Kubernetes Storage deep dive** (`emptyDir` multi-container data sharing, `hostPath` worker node filesystem mount, manual `PersistentVolume` + `PersistentVolumeClaim` binding, and automated on-demand dynamic provisioning via `StorageClass`); **Horizontal Pod Autoscaling (HPA)** drill using `hpa.yml` — baseline metrics verified via `metrics-server`, surge traffic simulated with multi-thread load generators driving CPU to 151%, automatic scale-out from **1 to 3 to 6 replicas**, and graceful cool-down; **Container Health Probes** — `startupProbe` absorbing slow bootstrap latency, `readinessProbe` dynamically gating Service Endpoints, and `livenessProbe` catching container crashes and self-healing; and the **TaskFlow Cloud Platform Mini-Project** — multi-tier architecture with dynamic PVC-backed PostgreSQL 17 database proving **zero data loss across forced pod deletion**, autoscaled API tier scaling from **2 to 7 replicas**, and zero-downtime endpoint isolation. 16 terminal screenshots.
+
+### 13. [Kubernetes Troubleshooting](session-14-kubernetes-troubleshooting/README.md)
+All **Session 14 diagnostic commands, common failure mode playbooks, and the incident remediation mini-project** executed on Minikube. Highlights: **Diagnostic CLI mastery** across `kubectl get -o wide`, `kubectl describe`, `kubectl logs --previous`, `kubectl exec`, `kubectl events`, `kubectl explain`, and `kubectl top`; **8 Common failure mode triage drills** (`CrashLoopBackOff`, `ImagePullBackOff`/`ErrImagePull`, `Pending`, `ContainerCreating`, Service connectivity label selector mismatch, CoreDNS resolution, Pod networking `127.0.0.1` vs `0.0.0.0` binding, and `CreateContainerConfigError` secret key mismatch) with root cause isolation and verified fixes; and **Operation Triage: ShopSphere Outage Mini-Project** — triaging a multi-tier platform outage with 4 concurrent failures, executing automated triage scripts, applying full remediation, and proving recovery with live HTTP curl tests. 16 terminal screenshots.
 
 ---
 

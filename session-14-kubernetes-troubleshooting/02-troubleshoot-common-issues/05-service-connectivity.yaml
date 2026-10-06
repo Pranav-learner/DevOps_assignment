@@ -1,0 +1,39 @@
+# 05. Service Connectivity & Endpoints: Broken vs Fixed manifests
+
+# Target Pod with label app: backend-api
+apiVersion: v1
+kind: Pod
+metadata:
+  name: backend-api-pod
+  labels:
+    app: backend-api
+spec:
+  containers:
+    - name: api
+      image: nginx:alpine
+      ports:
+        - containerPort: 80
+---
+# Broken Service: selector mismatch (app: backend-wrong-label)
+apiVersion: v1
+kind: Service
+metadata:
+  name: backend-svc-broken
+spec:
+  ports:
+    - port: 80
+      targetPort: 80
+  selector:
+    app: backend-wrong-label
+---
+# Fixed Service: selector correctly matches Pod label (app: backend-api)
+apiVersion: v1
+kind: Service
+metadata:
+  name: backend-svc-fixed
+spec:
+  ports:
+    - port: 80
+      targetPort: 80
+  selector:
+    app: backend-api
