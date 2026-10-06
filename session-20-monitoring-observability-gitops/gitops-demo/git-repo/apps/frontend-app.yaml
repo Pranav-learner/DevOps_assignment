@@ -1,0 +1,47 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: gitops-frontend-app
+  namespace: gitops-demo
+  labels:
+    app: gitops-frontend
+    managed-by: gitops-engine
+spec:
+  replicas: 3
+  selector:
+    matchLabels:
+      app: gitops-frontend
+  template:
+    metadata:
+      labels:
+        app: gitops-frontend
+    spec:
+      containers:
+        - name: web
+          image: nginx:1.27-alpine
+          ports:
+            - containerPort: 80
+          resources:
+            requests:
+              cpu: 20m
+              memory: 32Mi
+            limits:
+              cpu: 100m
+              memory: 64Mi
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: gitops-frontend-service
+  namespace: gitops-demo
+  labels:
+    app: gitops-frontend
+    managed-by: gitops-engine
+spec:
+  type: ClusterIP
+  selector:
+    app: gitops-frontend
+  ports:
+    - port: 80
+      targetPort: 80
+      name: http

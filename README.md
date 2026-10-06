@@ -33,6 +33,7 @@ The submission form has one field per topic. Each links to that topic's `README.
 | 16 | **Complete CI/CD & DevSecOps** | [`session-17-cicd-devsecops/`](session-17-cicd-devsecops/README.md) | Session 17 — Complete CI/CD & DevSecOps |
 | 17 | **Terraform & Infrastructure as Code** | [`session-18-terraform-iac/`](session-18-terraform-iac/README.md) | Session 18 — Terraform & Infrastructure as Code |
 | 18 | **Cloud & Terraform in Action** | [`session-19-cloud-terraform-in-action/`](session-19-cloud-terraform-in-action/README.md) | Session 19 — Cloud & Terraform in Action |
+| 19 | **Monitoring, Observability & GitOps** | [`session-20-monitoring-observability-gitops/`](session-20-monitoring-observability-gitops/README.md) | Session 20 — Monitoring, Observability & GitOps |
 
 ---
 
@@ -91,6 +92,9 @@ Complete **Terraform IaC and AWS Cloud Architecture research project**. Highligh
 
 ### 18. [Cloud & Terraform in Action](session-19-cloud-terraform-in-action/README.md)
 Complete **End-to-End Cloud Infrastructure as Code (IaC) project** provisioned using HashiCorp Terraform. Highlights: Multi-tier AWS cloud architecture spanning **Virtual Private Cloud (VPC)** (`10.0.0.0/16`), **Public Subnet** (`10.0.1.0/24`), **Internet Gateway (IGW)**, **Public Route Table** and association, stateful **Security Group** (HTTP 80 & SSH 22 ingress, all egress), **Amazon EC2 Compute instance** (`t2.micro`) bootstrapped via Cloud-Init User Data, and **Amazon S3 Object Storage bucket** with Server-Side Encryption (SSE-S3 AES-256), S3 Versioning, and S3 Public Access Block. Explicit resource dependencies demonstrated (`depends_on`), input variables with type constraints, outputs exporting computed endpoints, and complete lifecycle execution across all phases (`terraform init`, `fmt`, `validate`, `plan`, `apply`, `state list`, `state show`, `output`, and `destroy`). 8 terminal screenshots.
+
+### 19. [Monitoring, Observability & GitOps](session-20-monitoring-observability-gitops/README.md)
+Complete **Monitoring, Observability & GitOps enterprise platform** executed on Minikube. Highlights: **Monitoring Demo** (`monitoring-demo/`) featuring the `PulseWatch Observability API` microservice exposing real-time Prometheus metrics (`/metrics`), structured JSON logs with distributed `trace_id` correlation, application health probes (`/healthz`), synthetic load simulators, live CPU and memory utilization surveillance via `kubectl top pods`, and declarative Prometheus alerting rules (`alert-rules.yaml`); comprehensive **Observability deep-dive** (`observability/`) detailing the Three Pillars (Metrics, Logs, Traces - M.E.L.T.), USE vs RED methods, OpenTelemetry unification, and Kubernetes multi-tier observability architecture; and **GitOps Continuous Reconciliation Engine** (`gitops-demo/`) demonstrating Git as the single source of truth, automated initial sync, imperative drift detection, automated self-healing reconciliation, and declarative Git-driven rollouts. 8 terminal screenshots.
 
 ---
 

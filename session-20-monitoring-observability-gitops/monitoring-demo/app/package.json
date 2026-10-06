@@ -1,0 +1,12 @@
+{
+  "name": "pulsewatch-observability-api",
+  "version": "1.0.0",
+  "description": "Microservice for demonstrating Metrics, Structured Logs, Alerts, and Application Health",
+  "main": "src/server.js",
+  "scripts": {
+    "start": "node src/server.js"
+  },
+  "dependencies": {
+    "express": "^4.21.2"
+  }
+}

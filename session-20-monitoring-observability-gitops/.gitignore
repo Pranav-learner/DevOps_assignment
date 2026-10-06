@@ -1,0 +1,13 @@
+# Node.js dependencies
+node_modules/
+**/node_modules/
+package-lock.json
+
+# Python cache
+__pycache__/
+*.py[cod]
+
+# Runtime logs & temporary files
+*.log
+*.tmp
+.cache/

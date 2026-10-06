@@ -1,0 +1,55 @@
+apiVersion: monitoring.coreos.com/v1
+kind: PrometheusRule
+metadata:
+  name: pulsewatch-alert-rules
+  namespace: observability-demo
+  labels:
+    role: alert-rules
+    prometheus: k8s
+spec:
+  groups:
+    - name: pulsewatch.rules
+      rules:
+        # Alert 1: High CPU Utilization (> 80% for 1m)
+        - alert: HighCPUUtilization
+          expr: (sum(rate(container_cpu_usage_seconds_total{container="pulsewatch"}[1m])) by (pod) / sum(kube_pod_container_resource_limits{resource="cpu",container="pulsewatch"}) by (pod)) * 100 > 80
+          for: 1m
+          labels:
+            severity: warning
+            tier: compute
+          annotations:
+            summary: "High CPU usage detected on Pod {{ $labels.pod }}"
+            description: "Pod {{ $labels.pod }} CPU utilization has exceeded 80% threshold for more than 1 minute."
+
+        # Alert 2: High Memory Utilization (> 80% of limit)
+        - alert: HighMemoryUtilization
+          expr: (sum(container_memory_working_set_bytes{container="pulsewatch"}) by (pod) / sum(kube_pod_container_resource_limits{resource="memory",container="pulsewatch"}) by (pod)) * 100 > 80
+          for: 1m
+          labels:
+            severity: critical
+            tier: memory
+          annotations:
+            summary: "Memory threshold exceeded on Pod {{ $labels.pod }}"
+            description: "Pod {{ $labels.pod }} memory working set is above 80% of memory limit (256Mi). Risk of OOMKill."
+
+        # Alert 3: Application Health Degraded
+        - alert: ApplicationHealthDegraded
+          expr: probe_success{instance="http://pulsewatch-service/healthz"} == 0
+          for: 30s
+          labels:
+            severity: critical
+            tier: application
+          annotations:
+            summary: "PulseWatch Health Endpoint Failure"
+            description: "Synthetic health probe /healthz returned non-200 status. Service is degraded."
+
+        # Alert 4: Elevated HTTP Error Rate
+        - alert: HighHttpErrorRate
+          expr: sum(rate(pulsewatch_http_errors_total[2m])) / sum(rate(pulsewatch_http_requests_total[2m])) * 100 > 5
+          for: 1m
+          labels:
+            severity: warning
+            tier: traffic
+          annotations:
+            summary: "High 5xx Error Rate on PulseWatch API"
+            description: "Error rate is currently {{ $value }}% (> 5% threshold)."
