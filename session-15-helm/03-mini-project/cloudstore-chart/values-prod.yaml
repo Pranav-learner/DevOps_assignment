@@ -1,0 +1,45 @@
+# Production Environment Profile (High Availability & Autoscaling)
+replicaCount: 3
+
+image:
+  repository: nginx
+  pullPolicy: IfNotPresent
+  tag: "1.26-alpine"
+
+ingress:
+  enabled: true
+  className: "nginx"
+  annotations:
+    nginx.ingress.kubernetes.io/ssl-redirect: "false"
+  hosts:
+    - host: cloudstore.production.local
+      paths:
+        - path: /
+          pathType: Prefix
+
+resources:
+  requests:
+    cpu: 50m
+    memory: 64Mi
+  limits:
+    cpu: 250m
+    memory: 128Mi
+
+autoscaling:
+  enabled: true
+  minReplicas: 3
+  maxReplicas: 8
+  targetCPUUtilizationPercentage: 70
+  targetMemoryUtilizationPercentage: 80
+
+config:
+  appEnv: "production"
+  logLevel: "warn"
+  apiTimeout: "10"
+  cacheEnabled: "true"
+  catalogPageSize: "50"
+
+secrets:
+  dbPassword: "EnterpriseSuperSecretProdDBKey2026!"
+  jwtSecret: "prod-jwt-secret-token-ultra-secure-9911"
+  paymentKey: "pk_live_stripe_paypal_prod_token"

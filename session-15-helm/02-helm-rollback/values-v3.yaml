@@ -1,0 +1,28 @@
+# Values for Release Revision 3 (Faulty Canary / Broken Release)
+# Contains invalid image tag to demonstrate failed rollout detection & rapid rollback
+replicaCount: 3
+
+image:
+  repository: nginx
+  pullPolicy: IfNotPresent
+  tag: "1.26-alpine-invalid-tag-fail"
+
+service:
+  type: ClusterIP
+  port: 80
+
+env:
+  - name: APP_ENVIRONMENT
+    value: "production"
+  - name: APP_VERSION
+    value: "v3.0.0-broken-canary"
+  - name: RELEASE_CODENAME
+    value: "catastrophe"
+
+resources:
+  requests:
+    cpu: 25m
+    memory: 40Mi
+  limits:
+    cpu: 150m
+    memory: 80Mi

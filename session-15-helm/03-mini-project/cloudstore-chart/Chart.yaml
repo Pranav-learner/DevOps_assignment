@@ -1,0 +1,14 @@
+apiVersion: v2
+name: cloudstore-chart
+description: Enterprise CloudStore e-commerce platform Helm chart with ConfigMaps, Secrets, Ingress, Probes, and HPA
+type: application
+version: 1.0.0
+appVersion: "2.5.0"
+keywords:
+  - ecommerce
+  - web
+  - cloudstore
+  - production
+maintainers:
+  - name: Pranav Gupta
+    email: 24bcs10237@cuchd.in

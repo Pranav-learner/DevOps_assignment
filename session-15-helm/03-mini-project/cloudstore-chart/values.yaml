@@ -1,0 +1,95 @@
+# Default values for cloudstore-chart (Development profile)
+
+replicaCount: 1
+
+image:
+  repository: nginx
+  pullPolicy: IfNotPresent
+  tag: "1.25-alpine"
+
+imagePullSecrets: []
+nameOverride: ""
+fullnameOverride: ""
+
+serviceAccount:
+  create: true
+  automount: true
+  annotations: {}
+  name: ""
+
+podAnnotations: {}
+podLabels: {}
+
+podSecurityContext: {}
+
+securityContext:
+  capabilities:
+    drop:
+    - ALL
+  readOnlyRootFilesystem: false
+  runAsNonRoot: false
+
+service:
+  type: ClusterIP
+  port: 80
+
+ingress:
+  enabled: false
+  className: "nginx"
+  annotations: {}
+  hosts:
+    - host: cloudstore.local
+      paths:
+        - path: /
+          pathType: Prefix
+  tls: []
+
+resources:
+  limits:
+    cpu: 200m
+    memory: 128Mi
+  requests:
+    cpu: 50m
+    memory: 64Mi
+
+autoscaling:
+  enabled: false
+  minReplicas: 1
+  maxReplicas: 5
+  targetCPUUtilizationPercentage: 80
+
+rollingUpdate:
+  maxSurge: 1
+  maxUnavailable: 0
+
+probes:
+  liveness:
+    path: /
+    initialDelaySeconds: 5
+    periodSeconds: 10
+    timeoutSeconds: 2
+    failureThreshold: 3
+  readiness:
+    path: /
+    initialDelaySeconds: 3
+    periodSeconds: 5
+    timeoutSeconds: 2
+    successThreshold: 1
+
+config:
+  appEnv: "development"
+  logLevel: "debug"
+  apiTimeout: "15"
+  cacheEnabled: "false"
+  catalogPageSize: "10"
+
+secrets:
+  dbPassword: "DevPassword123!"
+  jwtSecret: "dev-insecure-jwt-key"
+  paymentKey: "pk_test_dev123"
+
+extraEnv:
+  - name: CLOUD_REGION
+    value: "local-minikube"
+  - name: APP_MODULE
+    value: "core-commerce"

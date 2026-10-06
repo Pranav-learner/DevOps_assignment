@@ -1,0 +1,41 @@
+# Staging Environment Profile
+replicaCount: 2
+
+image:
+  repository: nginx
+  pullPolicy: IfNotPresent
+  tag: "1.25-alpine"
+
+ingress:
+  enabled: true
+  className: "nginx"
+  annotations:
+    nginx.ingress.kubernetes.io/rewrite-target: /
+  hosts:
+    - host: staging.cloudstore.local
+      paths:
+        - path: /
+          pathType: Prefix
+
+resources:
+  requests:
+    cpu: 30m
+    memory: 48Mi
+  limits:
+    cpu: 150m
+    memory: 96Mi
+
+autoscaling:
+  enabled: false
+
+config:
+  appEnv: "staging"
+  logLevel: "info"
+  apiTimeout: "20"
+  cacheEnabled: "true"
+  catalogPageSize: "20"
+
+secrets:
+  dbPassword: "StagingSecretPassword2026!"
+  jwtSecret: "staging-jwt-key-998877"
+  paymentKey: "pk_test_staging_4488"

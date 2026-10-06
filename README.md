@@ -1,6 +1,6 @@
 # DevOps Homework — Section B
 
-All thirteen DevOps homework tasks, each in its own folder with its own `README.md`.
+All fourteen DevOps homework tasks, each in its own folder with its own `README.md`.
 
 | | |
 |---|---|
@@ -28,6 +28,7 @@ The submission form has one field per topic. Each links to that topic's `README.
 | 11 | **Ingress, ConfigMaps & Secrets** | [`session-12-ingress-configmaps-secrets/`](session-12-ingress-configmaps-secrets/README.md) | Session 12 — ConfigMaps, Secrets & Ingress |
 | 12 | **Kubernetes Storage, HPA & Probes** | [`session-13-storage-hpa-probes/`](session-13-storage-hpa-probes/README.md) | Session 13: Kubernetes Storage, HPA & Probes |
 | 13 | **Kubernetes Troubleshooting** | [`session-14-kubernetes-troubleshooting/`](session-14-kubernetes-troubleshooting/README.md) | Session 14 — Kubernetes Troubleshooting |
+| 14 | **Helm** | [`session-15-helm/`](session-15-helm/README.md) | Session 15 — Helm |
 
 ---
 
@@ -71,6 +72,9 @@ All **Session 13 tasks and mini-project** executed on Minikube. Highlights: **Ku
 
 ### 13. [Kubernetes Troubleshooting](session-14-kubernetes-troubleshooting/README.md)
 All **Session 14 diagnostic commands, common failure mode playbooks, and the incident remediation mini-project** executed on Minikube. Highlights: **Diagnostic CLI mastery** across `kubectl get -o wide`, `kubectl describe`, `kubectl logs --previous`, `kubectl exec`, `kubectl events`, `kubectl explain`, and `kubectl top`; **8 Common failure mode triage drills** (`CrashLoopBackOff`, `ImagePullBackOff`/`ErrImagePull`, `Pending`, `ContainerCreating`, Service connectivity label selector mismatch, CoreDNS resolution, Pod networking `127.0.0.1` vs `0.0.0.0` binding, and `CreateContainerConfigError` secret key mismatch) with root cause isolation and verified fixes; and **Operation Triage: ShopSphere Outage Mini-Project** — triaging a multi-tier platform outage with 4 concurrent failures, executing automated triage scripts, applying full remediation, and proving recovery with live HTTP curl tests. 16 terminal screenshots.
+
+### 14. [Helm](session-15-helm/README.md)
+All **Session 15 package management tasks, rollback lifecycles, and enterprise mini-project** executed on Minikube with Helm v3.17.1. Highlights: **Helm CLI mastery** across all 11 core commands (`helm repo`, `helm search`, `helm create`, `helm install`, `helm list`, `helm status`, `helm get`, `helm upgrade`, `helm history`, `helm rollback`, and `helm uninstall`); **Complete Rollback Lifecycle Drill** ($v1 \to v2 \to \text{Verify} \to v3\text{ [Broken]} \to \text{Verify Degradation} \to \text{Rollback to } v2 \to \text{Verify Recovery}$) proving zero-downtime automated recovery from faulty releases; and the **CloudStore Platform Mini-Project** — enterprise multi-tier e-commerce Helm chart featuring decoupled ConfigMaps, encrypted Secrets, Layer 7 Ingress routing, dual health probes, Horizontal Pod Autoscaler (HPA v2 with CPU/memory targets), multi-environment profiles (`values-staging.yaml`, `values-prod.yaml`), automated scripts, and live HTTP verification tests. 16 terminal screenshots.
 
 ---
 
