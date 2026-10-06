@@ -1,0 +1,26 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: taskflow-load-generator
+  namespace: taskflow-prod
+  labels:
+    app: taskflow-load-generator
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: taskflow-load-generator
+  template:
+    metadata:
+      labels:
+        app: taskflow-load-generator
+    spec:
+      containers:
+        - name: load-generator
+          image: busybox:latest
+          command: ["/bin/sh", "-c"]
+          args:
+            - |
+              while true; do
+                wget -q -O- http://taskflow-api-service:8080/burn > /dev/null;
+              done

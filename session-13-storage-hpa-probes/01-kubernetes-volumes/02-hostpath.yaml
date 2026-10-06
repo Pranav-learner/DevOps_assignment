@@ -1,0 +1,26 @@
+apiVersion: v1
+kind: Pod
+metadata:
+  name: hostpath-demo
+  labels:
+    app: hostpath-demo
+spec:
+  containers:
+    - name: hostpath-worker
+      image: busybox:latest
+      command: ["/bin/sh", "-c"]
+      args:
+        - |
+          echo "HostPath demonstration executed at $(date -u)" >> /node-mount/audit.log;
+          echo "Hostname inside container: $(hostname)" >> /node-mount/audit.log;
+          echo "Content written to host filesystem successfully.";
+          cat /node-mount/audit.log;
+          sleep 3600;
+      volumeMounts:
+        - name: node-storage
+          mountPath: /node-mount
+  volumes:
+    - name: node-storage
+      hostPath:
+        path: /data/k8s-hostpath-demo
+        type: DirectoryOrCreate

@@ -1,0 +1,37 @@
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: dynamic-pvc-demo
+spec:
+  accessModes:
+    - ReadWriteOnce
+  storageClassName: fast-storage
+  resources:
+    requests:
+      storage: 250Mi
+---
+apiVersion: v1
+kind: Pod
+metadata:
+  name: dynamic-pvc-pod
+  labels:
+    app: dynamic-pvc-pod
+spec:
+  containers:
+    - name: writer
+      image: busybox:latest
+      command: ["/bin/sh", "-c"]
+      args:
+        - |
+          echo "Dynamic Provisioning verified: PV created automatically on-demand." > /dynamic-data/status.txt;
+          echo "Allocated size: 250Mi via StorageClass fast-storage" >> /dynamic-data/status.txt;
+          echo "Timestamp: $(date -u)" >> /dynamic-data/status.txt;
+          cat /dynamic-data/status.txt;
+          sleep 3600;
+      volumeMounts:
+        - name: dynamic-vol
+          mountPath: /dynamic-data
+  volumes:
+    - name: dynamic-vol
+      persistentVolumeClaim:
+        claimName: dynamic-pvc-demo

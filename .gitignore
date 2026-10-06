@@ -67,3 +67,14 @@ bin/
 *.dylib
 *.test
 *.out
+
+# Kubernetes & Cluster Runtime
+*.kubeconfig
+.kube/
+*.log
+*.tmp
+tmp/
+scratch/
+
+# Incompatible cross-platform paths / symlinks (contains colons invalid on Windows/NTFS)
+Session 13: Kubernetes Storage, HPA & Probes

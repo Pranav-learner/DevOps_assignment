@@ -1,6 +1,6 @@
 # DevOps Homework — Section B
 
-All eleven DevOps homework tasks, each in its own folder with its own `README.md`.
+All twelve DevOps homework tasks, each in its own folder with its own `README.md`.
 
 | | |
 |---|---|
@@ -26,6 +26,7 @@ The submission form has one field per topic. Each links to that topic's `README.
 | 9 | **Kubernetes Core Objects** | [`session10-k8s-core-objects/`](session10-k8s-core-objects/README.md) | Session 10 — Kubernetes Core Objects |
 | 10 | **Kubernetes Fundamentals** | [`session9-k8s/`](session9-k8s/README.md) | Session 9 — Kubernetes Fundamentals & Architecture |
 | 11 | **Ingress, ConfigMaps & Secrets** | [`session-12-ingress-configmaps-secrets/`](session-12-ingress-configmaps-secrets/README.md) | Session 12 — ConfigMaps, Secrets & Ingress |
+| 12 | **Kubernetes Storage, HPA & Probes** | [`session-13-storage-hpa-probes/`](session-13-storage-hpa-probes/README.md) | Session 13: Kubernetes Storage, HPA & Probes |
 
 ---
 
@@ -63,6 +64,9 @@ Minikube and `kubectl` installation verified, then the **full cluster lifecycle 
 
 ### 11. [Ingress, ConfigMaps & Secrets](session-12-ingress-configmaps-secrets/README.md)
 All **14 Session 12 tasks** executed on Minikube with the NGINX Ingress Controller. Highlights: the **ConfigMap immobility drill** — patched to `staging` while the running Pod still reported `production`, fixed by a zero-downtime `rollout restart`; the **trailing-newline Secret bug** exposed byte-by-byte with `xxd` (`...ZK` vs `...ZQ=`); combined `envFrom` + `secretKeyRef` injection verified inside the container; and **Layer 7 routing** proven four ways — path-based (`/` → nginx, `/api/` → backend), host-based virtual hosts on one IP, hybrid host+path, and **TLS termination** returning `HTTP 200` over a TLSv1.3 handshake with a self-signed `CN=campus.local` certificate. Ends with scripted deploy/teardown. 17 screenshots.
+
+### 12. [Kubernetes Storage, HPA & Probes](session-13-storage-hpa-probes/README.md)
+All **Session 13 tasks and mini-project** executed on Minikube. Highlights: **Kubernetes Storage deep dive** (`emptyDir` multi-container data sharing, `hostPath` worker node filesystem mount, manual `PersistentVolume` + `PersistentVolumeClaim` binding, and automated on-demand dynamic provisioning via `StorageClass`); **Horizontal Pod Autoscaling (HPA)** drill using `hpa.yml` — baseline metrics verified via `metrics-server`, surge traffic simulated with multi-thread load generators driving CPU to 151%, automatic scale-out from **1 to 3 to 6 replicas**, and graceful cool-down; **Container Health Probes** — `startupProbe` absorbing slow bootstrap latency, `readinessProbe` dynamically gating Service Endpoints, and `livenessProbe` catching container crashes and self-healing; and the **TaskFlow Cloud Platform Mini-Project** — multi-tier architecture with dynamic PVC-backed PostgreSQL 17 database proving **zero data loss across forced pod deletion**, autoscaled API tier scaling from **2 to 7 replicas**, and zero-downtime endpoint isolation. 16 terminal screenshots.
 
 ---
 

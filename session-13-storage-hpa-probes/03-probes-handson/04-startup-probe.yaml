@@ -1,0 +1,32 @@
+apiVersion: v1
+kind: Pod
+metadata:
+  name: startup-probe-demo
+  labels:
+    app: startup-probe-demo
+spec:
+  containers:
+    - name: legacy-slow-app
+      image: busybox:latest
+      command: ["/bin/sh", "-c"]
+      args:
+        - |
+          echo "Application initializing (e.g. schema migration)...";
+          sleep 12;
+          touch /tmp/started;
+          echo "Initialization complete, server listening.";
+          sleep 3600;
+      startupProbe:
+        exec:
+          command:
+            - cat
+            - /tmp/started
+        periodSeconds: 3
+        failureThreshold: 10
+      livenessProbe:
+        exec:
+          command:
+            - cat
+            - /tmp/started
+        periodSeconds: 5
+        failureThreshold: 2

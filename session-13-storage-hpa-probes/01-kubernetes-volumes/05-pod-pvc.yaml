@@ -1,0 +1,24 @@
+apiVersion: v1
+kind: Pod
+metadata:
+  name: manual-pvc-pod
+  labels:
+    app: manual-pvc-pod
+spec:
+  containers:
+    - name: app
+      image: busybox:latest
+      command: ["/bin/sh", "-c"]
+      args:
+        - |
+          echo "Storage persistence check: write operation at $(date -u)" >> /persistent-data/index.txt;
+          echo "Current content in manual PV:" >> /persistent-data/index.txt;
+          cat /persistent-data/index.txt;
+          sleep 3600;
+      volumeMounts:
+        - name: static-volume
+          mountPath: /persistent-data
+  volumes:
+    - name: static-volume
+      persistentVolumeClaim:
+        claimName: manual-pvc-demo
