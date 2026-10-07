@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<coverage generated="1791334614138" clover="3.2.0">
-  <project timestamp="1791334614138" name="All files">
+<coverage generated="1791335155206" clover="3.2.0">
+  <project timestamp="1791335155206" name="All files">
     <metrics statements="85" coveredstatements="76" conditionals="38" coveredconditionals="24" methods="10" coveredmethods="9" elements="133" coveredelements="109" complexity="0" loc="85" ncloc="85" packages="1" files="1" classes="1"/>
     <file name="server.js" path="/home/pranav/Documents/DevOps_assignment/final-devops-project/application/src/server.js">
       <metrics statements="85" coveredstatements="76" conditionals="38" coveredconditionals="24" methods="10" coveredmethods="9"/>
