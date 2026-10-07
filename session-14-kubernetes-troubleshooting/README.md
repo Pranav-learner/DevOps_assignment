@@ -37,7 +37,6 @@ Master the systematic detection, triage, root-cause isolation, and remediation o
 ```
 session-14-kubernetes-troubleshooting/
 ├── README.md                                # Master Session 14 comprehensive documentation
-├── generate_screenshot.py                   # Automated dark-mode terminal screenshot renderer
 ├── .gitignore                               # Scoped ignore file for temporary logs and pycache
 ├── 01-troubleshooting-commands/             # Task 1: Diagnostic Commands Practice
 │   ├── README.md                            # Comprehensive command reference guide

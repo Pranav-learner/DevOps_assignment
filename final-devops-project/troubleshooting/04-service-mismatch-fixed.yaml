@@ -1,8 +1,8 @@
 apiVersion: v1
 kind: Service
 metadata:
-  name: cloudnexus-troubleshoot-service
-  namespace: cloudnexus-prod
+  name: pranav-troubleshoot-service
+  namespace: pranav-prod
 spec:
   type: ClusterIP
   ports:
@@ -10,5 +10,5 @@ spec:
       targetPort: 3000
       name: http
   selector:
-    # REMEDIATION: Match actual pod label app.kubernetes.io/name: cloudnexus
-    app.kubernetes.io/name: cloudnexus
+    # REMEDIATION: Match actual pod label app.kubernetes.io/name: pranav
+    app.kubernetes.io/name: pranav

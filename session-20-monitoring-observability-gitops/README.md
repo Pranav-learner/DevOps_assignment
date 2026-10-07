@@ -39,7 +39,6 @@ session-20-monitoring-observability-gitops/
 │   ├── 07-gitops-drift-detection-healing.png       # GitOps Steps 2 & 3: Drift detection & self-healing
 │   └── 08-gitops-declarative-update.png            # GitOps Step 4: Declarative Git commit rollout
 │
-├── generate_screenshot.py           # Automated terminal output capture & renderer
 └── README.md                        # Master Session 20 Overview Document
 ```
 

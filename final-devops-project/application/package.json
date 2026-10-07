@@ -1,7 +1,7 @@
 {
-  "name": "cloudnexus-platform-api",
+  "name": "pranav-devops-platform-api",
   "version": "1.0.0",
-  "description": "Production Cloud-Native Microservice for Final DevOps Project",
+  "description": "Pranav Production Cloud-Native Microservice for Final DevOps Project",
   "main": "src/server.js",
   "scripts": {
     "start": "node src/server.js",

@@ -39,7 +39,6 @@ Master the three foundational operational pillars required to run production-gra
 ```
 session-13-storage-hpa-probes/
 ├── README.md                                # Master Session 13 comprehensive documentation
-├── generate_screenshot.py                   # Automated dark-mode terminal screenshot renderer
 ├── 01-kubernetes-volumes/                   # Task 1: Kubernetes Storage
 │   ├── README.md                            # Comprehensive volumes guide & concept matrix
 │   ├── 01-emptydir.yaml                     # Multi-container pod sharing emptyDir volume

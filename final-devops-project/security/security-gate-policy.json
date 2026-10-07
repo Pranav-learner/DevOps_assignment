@@ -1,6 +1,6 @@
 {
   "$schema": "https://json-schema.org/draft/2020-12/schema",
-  "policyName": "CloudNexus Production Deployment Quality & Security Gate",
+  "policyName": "Pranav Production Deployment Quality & Security Gate",
   "version": "1.0.0",
   "lastUpdated": "2026-10-07",
   "enforcementMode": "blocking",

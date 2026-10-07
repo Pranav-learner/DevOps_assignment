@@ -1,10 +1,10 @@
 apiVersion: v1
 kind: PersistentVolumeClaim
 metadata:
-  name: cloudnexus-data-pvc
-  namespace: cloudnexus-prod
+  name: pranav-app-data-pvc
+  namespace: pranav-prod
   labels:
-    app: cloudnexus-api
+    app: pranav-app-api
 spec:
   accessModes:
     - ReadWriteOnce

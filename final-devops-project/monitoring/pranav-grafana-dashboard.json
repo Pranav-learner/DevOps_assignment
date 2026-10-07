@@ -25,7 +25,7 @@
       "type": "timeseries",
       "targets": [
         {
-          "expr": "sum(rate(cloudnexus_http_requests_total[1m])) by (method, route)",
+          "expr": "sum(rate(pranav-app_http_requests_total[1m])) by (method, route)",
           "legendFormat": "{{method}} {{route}}"
         }
       ]
@@ -39,7 +39,7 @@
       "type": "timeseries",
       "targets": [
         {
-          "expr": "histogram_quantile(0.95, sum(rate(cloudnexus_http_request_duration_seconds_bucket[5m])) by (le))",
+          "expr": "histogram_quantile(0.95, sum(rate(pranav-app_http_request_duration_seconds_bucket[5m])) by (le))",
           "legendFormat": "p95 latency"
         }
       ]
@@ -53,7 +53,7 @@
       "type": "timeseries",
       "targets": [
         {
-          "expr": "(sum(rate(cloudnexus_http_requests_total{status=~\"5..\"}[5m])) / sum(rate(cloudnexus_http_requests_total[5m]))) * 100",
+          "expr": "(sum(rate(pranav-app_http_requests_total{status=~\"5..\"}[5m])) / sum(rate(pranav-app_http_requests_total[5m]))) * 100",
           "legendFormat": "5xx error %"
         }
       ]
@@ -74,11 +74,11 @@
       "type": "timeseries",
       "targets": [
         {
-          "expr": "kube_deployment_status_replicas_available{deployment=\"cloudnexus\"}",
+          "expr": "kube_deployment_status_replicas_available{deployment=\"pranav-app\"}",
           "legendFormat": "Available Pods"
         },
         {
-          "expr": "kube_deployment_spec_replicas{deployment=\"cloudnexus\"}",
+          "expr": "kube_deployment_spec_replicas{deployment=\"pranav-app\"}",
           "legendFormat": "Desired Pods"
         }
       ]
@@ -92,7 +92,7 @@
       "type": "timeseries",
       "targets": [
         {
-          "expr": "sum(container_memory_working_set_bytes{container=\"cloudnexus\"}) by (pod)",
+          "expr": "sum(container_memory_working_set_bytes{container=\"pranav-app\"}) by (pod)",
           "legendFormat": "{{pod}}"
         }
       ]
@@ -101,12 +101,12 @@
   "refresh": "10s",
   "schemaVersion": 38,
   "style": "dark",
-  "tags": ["cloudnexus", "kubernetes", "devops"],
+  "tags": ["pranav-app", "kubernetes", "devops"],
   "time": {
     "from": "now-30m",
     "to": "now"
   },
-  "title": "CloudNexus Production Dashboard",
-  "uid": "cloudnexus-prod-overview",
+  "title": "Pranav Production Dashboard",
+  "uid": "pranav-prod-overview",
   "version": 1
 }

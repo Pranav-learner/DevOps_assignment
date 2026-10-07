@@ -101,7 +101,6 @@ session-19-cloud-terraform-in-action/
 ├── outputs.tf              # Computed cloud endpoints (VPC ID, Subnet ID, EC2 Public IP, Web URL)
 ├── terraform.tfvars        # Default environment parameter assignments
 ├── screenshots/            # Visual terminal run evidence captures
-├── generate_screenshot.py  # Automation script for terminal capture
 └── README.md               # Master project documentation
 ```
 

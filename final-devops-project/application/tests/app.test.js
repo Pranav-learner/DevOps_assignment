@@ -1,11 +1,12 @@
 const request = require('supertest');
 const app = require('../src/server');
 
-describe('CloudNexus Platform API Test Suite', () => {
-  it('GET / should return operational status', async () => {
+describe('Pranav DevOps Platform API Test Suite', () => {
+  it('GET / should return operational status with Pranav branding', async () => {
     const res = await request(app).get('/');
     expect(res.statusCode).toBe(200);
-    expect(res.body.service).toBe('CloudNexus Platform API');
+    expect(res.body.service).toBe('Pranav DevOps Platform API');
+    expect(res.body.author).toBe('Pranav Gupta');
     expect(res.body.status).toBe('OPERATIONAL');
   });
 
@@ -25,8 +26,8 @@ describe('CloudNexus Platform API Test Suite', () => {
   it('GET /metrics should return Prometheus metrics exposition', async () => {
     const res = await request(app).get('/metrics');
     expect(res.statusCode).toBe(200);
-    expect(res.text).toContain('cloudnexus_uptime_seconds');
-    expect(res.text).toContain('cloudnexus_http_requests_total');
+    expect(res.text).toContain('pranav_uptime_seconds');
+    expect(res.text).toContain('pranav_http_requests_total');
   });
 
   it('POST /api/v1/data should store and retrieve data', async () => {

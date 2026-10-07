@@ -1,8 +1,8 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: cloudnexus-troubleshoot-imagepull
-  namespace: cloudnexus-prod
+  name: pranav-troubleshoot-imagepull
+  namespace: pranav-prod
   labels:
     app: troubleshoot-2
 spec:
@@ -18,7 +18,7 @@ spec:
       containers:
         - name: app
           # REMEDIATION: Correct image tag to existing 1.0.0 image
-          image: cloudnexus:1.0.0
+          image: pranav-app:1.0.0
           imagePullPolicy: IfNotPresent
           env:
             - name: DB_PASSWORD

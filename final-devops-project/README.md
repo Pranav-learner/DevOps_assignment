@@ -1,5 +1,7 @@
-# CloudNexus: Enterprise End-to-End DevSecOps, Cloud Infrastructure & GitOps Platform
+# Pranav DevOps Platform: Enterprise End-to-End DevSecOps, Cloud Infrastructure & GitOps
 
+[![Author](https://img.shields.io/badge/Author-Pranav%20Gupta-brightgreen)](https://github.com/Pranav-learner)
+[![Enrollment](https://img.shields.io/badge/Enrollment-24BCS10237-blue)](https://github.com/Pranav-learner)
 [![CI/CD & DevSecOps](https://img.shields.io/badge/CI%2FCD-GitHub%20Actions-blue?logo=github-actions)](https://github.com/Pranav-learner/DevOps_assignment/actions)
 [![Infrastructure](https://img.shields.io/badge/IaC-Terraform%20v1.8-purple?logo=terraform)](https://www.terraform.io/)
 [![Kubernetes](https://img.shields.io/badge/Orchestration-Kubernetes%20v1.35-326CE5?logo=kubernetes)](https://kubernetes.io/)
@@ -12,15 +14,21 @@
 
 ## 1. Project Overview
 
-**CloudNexus** represents the capstone, production-grade DevOps engineering platform built for **Session 21**. It unifies the entire modern software delivery lifecycle into a single cohesive, auditable, and automated ecosystem.
+The **Pranav DevOps Platform** represents the capstone, production-grade DevOps engineering platform built for **Session 21**. It unifies the entire modern software delivery lifecycle into a single cohesive, auditable, and automated ecosystem.
 
 From initial commit to live production reconciliation, every artifact transitions through rigorous automated testing, static and dynamic security scanning gates, immutable container compilation, infrastructure provisioning via Terraform, package management via Helm, zero-drift GitOps synchronization, and continuous telemetry monitoring.
+
+### Student Details
+- **Student Name**: Pranav Gupta
+- **Enrollment Number**: 24BCS10237
+- **Terminal Host**: `pranav@pranavOG`
+- **Session**: Session 21 — Final DevOps Project & Troubleshooting
 
 ### Project Flow Architecture
 ```mermaid
 flowchart TD
     subgraph SCM["1. Source Control Management"]
-        DEV["Developer Workstation"] -->|git push| GIT["Git Branch: main"]
+        DEV["Developer Workstation (pranav@pranavOG)"] -->|git push| GIT["Git Branch: main"]
         GIT --> GH["GitHub Repository"]
     end
 
@@ -40,7 +48,7 @@ flowchart TD
     subgraph CONTAINER["4. Containerization & Artifact Registry"]
         GATE -->|Pass| DOCKER_BUILD["Multi-Stage Dockerfile (Alpine Hardened)"]
         DOCKER_BUILD --> IMAGE_SCAN["Trivy Container Vulnerability Scan"]
-        IMAGE_SCAN --> REGISTRY["GitHub Container Registry (GHCR)"]
+        IMAGE_SCAN --> REGISTRY["GitHub Container Registry (pranav-app:1.0.0)"]
     end
 
     subgraph INFRA["5. Infrastructure as Code (IaC)"]
@@ -57,12 +65,12 @@ flowchart TD
         ARGO -->|Declarative Sync| K8S_CLUSTER["Kubernetes Production Cluster"]
     end
 
-    subgraph K8S_RUNTIME["7. Kubernetes Production Workloads"]
-        K8S_CLUSTER --> INGRESS["Nginx Ingress Controller"]
+    subgraph K8S_RUNTIME["7. Kubernetes Production Workloads (pranav-prod)"]
+        K8S_CLUSTER --> INGRESS["Nginx Ingress Controller (pranav.local)"]
         INGRESS --> SVC["ClusterIP Service (Port 80 -> 3000)"]
-        SVC --> PODS["CloudNexus Deployment (3 Replicas)"]
-        PODS --> PVC["PersistentVolumeClaim (1Gi ReadWriteOnce)"]
-        PODS --> HPA["Horizontal Pod Autoscaler (2-10 Pods)"]
+        SVC --> PODS["pranav-app Deployment (3 Replicas)"]
+        PODS --> PVC["pranav-app-pvc (1Gi ReadWriteOnce)"]
+        PODS --> HPA["pranav-app HPA (2-10 Pods)"]
         PODS --> PROBES["Startup, Liveness & Readiness Probes"]
     end
 
@@ -85,7 +93,7 @@ flowchart TD
 
 | Category | Technology | Version | Purpose in Platform |
 | :--- | :--- | :--- | :--- |
-| **Runtime & Language** | Node.js / Express | `v22.x LTS` | Cloud API service with Prometheus telemetry and JSON logging |
+| **Runtime & Language** | Node.js / Express | `v22.x LTS` | Microservice with Prometheus telemetry and JSON logging |
 | **Unit Testing** | Jest & Supertest | `v29.x` | 100% automated test coverage for routes, health, and storage |
 | **Containerization** | Docker Engine | `v29.2.1` | Hardened multi-stage build, unprivileged user (`node:1000`) |
 | **Infrastructure as Code** | Terraform | `v1.8.0` | Provisioning VPC, Subnets, Gateways, EC2, S3, and Security Groups |
@@ -113,18 +121,18 @@ final-devops-project/
 ├── application/
 │   ├── package.json                         # Node.js dependencies, scripts, and Jest config
 │   ├── src/
-│   │   └── server.js                        # Production Express API with /healthz, /ready, /metrics
+│   │   └── server.js                        # Microservice with /healthz, /ready, /metrics, storage
 │   └── tests/
 │       └── app.test.js                      # Automated unit and integration test suite
 ├── docker/
 │   ├── .dockerignore                        # Context optimization excluding artifacts & node_modules
 │   └── Dockerfile                           # Security-hardened multi-stage Alpine container
 ├── gitops/
-│   ├── application.yaml                     # Declarative ArgoCD Application resource
+│   ├── application.yaml                     # Declarative ArgoCD Application resource (pranav-production)
 │   ├── appproject.yaml                      # ArgoCD project RBAC and repository isolation
 │   └── gitops-sync-simulation.sh            # Continuous drift detection & self-healing execution
 ├── helm/
-│   └── cloudnexus/
+│   └── pranav-app/
 │       ├── Chart.yaml                       # Helm v2 package specification
 │       ├── values.yaml                      # Production parameter overrides
 │       └── templates/
@@ -134,20 +142,20 @@ final-devops-project/
 │           ├── pvc.yaml                     # 1Gi ReadWriteOnce PersistentVolumeClaim
 │           ├── deployment.yaml              # Pod template, securityContext, probes, volume mounts
 │           ├── service.yaml                 # ClusterIP Service (Port 80 -> 3000)
-│           ├── ingress.yaml                 # Nginx Ingress routing for cloudnexus.local
+│           ├── ingress.yaml                 # Nginx Ingress routing for pranav.local
 │           └── hpa.yaml                     # Horizontal Pod Autoscaler (2-10 replicas, 70% CPU)
 ├── kubernetes/
-│   ├── namespace.yaml                       # Dedicated cloudnexus-prod namespace
+│   ├── namespace.yaml                       # Dedicated pranav-prod namespace
 │   ├── configmap.yaml                       # Raw ConfigMap
 │   ├── secret.yaml                          # Raw Secret
 │   ├── pvc.yaml                             # Raw PersistentVolumeClaim
-│   ├── deployment.yaml                      # Raw Deployment
-│   ├── service.yaml                         # Raw Service
-│   ├── ingress.yaml                         # Raw Ingress
+│   ├── deployment.yaml                      # Raw Deployment (pranav-app)
+│   ├── service.yaml                         # Raw Service (pranav-app-service)
+│   ├── ingress.yaml                         # Raw Ingress (pranav.local)
 │   └── hpa.yaml                             # Raw HPA
 ├── monitoring/
 │   ├── alert-rules.yaml                     # PrometheusRule alerting definitions
-│   ├── cloudnexus-grafana-dashboard.json    # Production Grafana Golden Signals dashboard
+│   ├── pranav-grafana-dashboard.json    # Production Grafana Golden Signals dashboard
 │   └── service-monitor.yaml                 # Prometheus ServiceMonitor CRD
 ├── screenshots/
 │   ├── 01_pipeline_build_test.png           # Jest test pass & code coverage
@@ -158,8 +166,8 @@ final-devops-project/
 │   ├── 06_kubernetes_prod_cluster_state.png # K8s live resources (3/3 Running, PVC Bound, HPA)
 │   ├── 07_monitoring_metrics_prometheus.png # Prometheus /metrics endpoint scraping
 │   ├── 08_gitops_reconciliation_argocd.png  # ArgoCD GitOps sync simulation
-│   ├── 09_troubleshooting_crashloop.png     # Troubleshooting Drills 1 & 2
-│   └── 10_troubleshooting_probes.png        # Troubleshooting Drills 3 & 4
+│   ├── 09_troubleshooting_crashloop_investigation.png # Troubleshooting Drills 1 & 2
+│   └── 10_troubleshooting_probes_and_networking.png   # Troubleshooting Drills 3 & 4
 ├── security/
 │   ├── .gitleaks.toml                       # Custom entropy and pattern rules
 │   ├── .trivyignore                         # Managed security waivers
@@ -192,8 +200,8 @@ final-devops-project/
 
 ## 4. Application Setup & Testing
 
-The core application is built with Node.js and Express in [application/src/server.js](file:///home/pranav/Documents/DevOps_assignment/final-devops-project/application/src/server.js). It provides:
-1. `GET /`: Health status, hostname, environment, and uptime.
+The core application is built with Node.js and Express in [application/src/server.js](application/src/server.js). It provides:
+1. `GET /`: Health status, author (`Pranav Gupta`), hostname, environment, and uptime.
 2. `GET /healthz`: Liveness probe endpoint returning HTTP 200.
 3. `GET /ready`: Readiness probe endpoint verifying database connectivity and configuration.
 4. `GET /metrics`: Native Prometheus exposition format tracking HTTP counts, latency, and memory RSS.
@@ -209,33 +217,33 @@ npm test -- --coverage
 ### Test Results
 ```
  PASS  tests/app.test.js
-  CloudNexus Platform API Test Suite
-    ✓ GET / returns 200 with service metadata (24 ms)
-    ✓ GET /healthz returns 200 for Kubernetes liveness probe (5 ms)
-    ✓ GET /ready returns 200 when mandatory credentials exist (6 ms)
-    ✓ GET /metrics returns Prometheus metric exposition format (8 ms)
-    ✓ POST /api/v1/data writes persistent payload to volume (12 ms)
-    ✓ GET /api/v1/data/:key reads back persistent volume data (7 ms)
+  Pranav DevOps Platform API Test Suite
+    ✓ GET / should return operational status with Pranav branding (298 ms)
+    ✓ GET /healthz should return UP status for liveness probe (32 ms)
+    ✓ GET /ready should return READY status for readiness probe (25 ms)
+    ✓ GET /metrics should return Prometheus metrics exposition (31 ms)
+    ✓ POST /api/v1/data should store and retrieve data (111 ms)
+    ✓ POST /api/v1/stress should compute workload for HPA (39 ms)
 
-----------|---------|----------|---------|---------|-------------------
-File      | % Stmts | % Branch | % Funcs | % Lines | Uncovered Line #s 
-----------|---------|----------|---------|---------|-------------------
-All files |   88.88 |    76.47 |   85.71 |   88.88 |                   
-server.js |   88.88 |    76.47 |   85.71 |   88.88 | 58,130,142        
-----------|---------|----------|---------|---------|-------------------
+-----------|---------|----------|---------|---------|-------------------
+File       | % Stmts | % Branch | % Funcs | % Lines | Uncovered Line #s 
+-----------|---------|----------|---------|---------|-------------------
+All files  |   90.69 |    63.15 |      90 |   90.58 |                   
+ server.js |   90.69 |    63.15 |      90 |   90.58 | ...20,131,142-144 
+-----------|---------|----------|---------|---------|-------------------
 Test Suites: 1 passed, 1 total
 Tests:       6 passed, 6 total
 Snapshots:   0 total
-Time:        0.492 s
+Time:        2.549 s
 ```
 
-![Test Coverage](/home/pranav/Documents/DevOps_assignment/final-devops-project/screenshots/01_pipeline_build_test.png)
+![Test Coverage](screenshots/01_pipeline_build_test.png)
 
 ---
 
 ## 5. Docker Setup & Hardening
 
-The application container in [docker/Dockerfile](file:///home/pranav/Documents/DevOps_assignment/final-devops-project/docker/Dockerfile) uses a security-hardened multi-stage build:
+The application container in [docker/Dockerfile](docker/Dockerfile) uses a security-hardened multi-stage build:
 - **Builder Stage**: Uses `node:22-alpine` to compile production dependencies (`npm ci --only=production`).
 - **Runner Stage**: Minimal `node:22-alpine` base.
 - **Security Hardening**:
@@ -246,17 +254,17 @@ The application container in [docker/Dockerfile](file:///home/pranav/Documents/D
 
 ### Building & Verifying Container
 ```bash
-docker build -t cloudnexus:1.0.0 -f final-devops-project/docker/Dockerfile final-devops-project/application
-docker images cloudnexus:1.0.0
+docker build -t pranav-app:1.0.0 -f final-devops-project/docker/Dockerfile final-devops-project
+docker images pranav-app:1.0.0
 ```
 
-![Docker Build](/home/pranav/Documents/DevOps_assignment/final-devops-project/screenshots/03_docker_multistage_build.png)
+![Docker Build](screenshots/03_docker_multistage_build.png)
 
 ---
 
 ## 6. Terraform Cloud Infrastructure
 
-The infrastructure layer in [terraform/](file:///home/pranav/Documents/DevOps_assignment/final-devops-project/terraform/) provisions enterprise AWS cloud architecture:
+The infrastructure layer in [terraform/](terraform/) provisions enterprise AWS cloud architecture:
 - **VPC** (`10.0.0.0/16`) with DNS support and hostnames enabled.
 - **Public Subnets** across two availability zones (`us-east-1a`, `us-east-1b`).
 - **Internet Gateway & Route Tables** routing public egress through `0.0.0.0/0`.
@@ -273,21 +281,21 @@ terraform validate
 terraform plan -out=tfplan
 ```
 
-![Terraform Plan](/home/pranav/Documents/DevOps_assignment/final-devops-project/screenshots/04_terraform_iac_infrastructure.png)
+![Terraform Plan](screenshots/04_terraform_iac_infrastructure.png)
 
 ---
 
 ## 7. Kubernetes Deployment & Helm Packaging
 
-The workload is deployed in Kubernetes with full redundancy, high availability, and persistent state.
+The workload is deployed in Kubernetes under namespace `pranav-prod` with full redundancy, high availability, and persistent state.
 
 ### Workload Specifications
-1. **Deployment**: 3 replicas, rolling updates (`maxSurge: 1`, `maxUnavailable: 0`), non-root execution (`runAsNonRoot: true`, `readOnlyRootFilesystem: true`).
-2. **Service**: ClusterIP routing internal port 80 to container port 3000.
-3. **Ingress**: Nginx ingress controller mapping `cloudnexus.local` to the service.
+1. **Deployment**: `pranav-app` (3 replicas, rolling updates: `maxSurge: 1`, `maxUnavailable: 0`), non-root execution (`runAsNonRoot: true`, `readOnlyRootFilesystem: true`).
+2. **Service**: `pranav-app-service` (ClusterIP routing internal port 80 to container port 3000).
+3. **Ingress**: `pranav-app-ingress` (Nginx ingress controller mapping `pranav.local` to the service).
 4. **ConfigMap & Secret**: Decoupled environment variables and secure credentials.
-5. **PersistentVolumeClaim**: 1Gi standard storage mounted at `/data` for stateful persistence.
-6. **HorizontalPodAutoscaler**: Scales between 2 and 10 pods based on 70% CPU and 80% Memory thresholds.
+5. **PersistentVolumeClaim**: `pranav-app-pvc` (1Gi standard storage mounted at `/data` for stateful persistence).
+6. **HorizontalPodAutoscaler**: `pranav-app` (Scales between 2 and 10 pods based on 70% CPU and 80% Memory thresholds).
 7. **Probes**:
    - `startupProbe`: `/healthz` (checks initial startup)
    - `livenessProbe`: `/healthz` (checks deadlocks)
@@ -295,39 +303,44 @@ The workload is deployed in Kubernetes with full redundancy, high availability, 
 
 ### Deploying via Helm
 ```bash
-helm lint final-devops-project/helm/cloudnexus
-helm upgrade --install cloudnexus final-devops-project/helm/cloudnexus \
-  --namespace cloudnexus-prod \
+helm lint final-devops-project/helm/pranav-app
+helm upgrade --install pranav-app final-devops-project/helm/pranav-app \
+  --namespace pranav-prod \
   --create-namespace
 ```
 
 ### Verified Live Cluster State
 ```
 NAME                              READY   STATUS    RESTARTS   AGE
-pod/cloudnexus-744c7c9486-9qbnh   1/1     Running   0          5m
-pod/cloudnexus-744c7c9486-fl2p4   1/1     Running   0          4m
-pod/cloudnexus-744c7c9486-j5hlv   1/1     Running   0          5m
+pod/pranav-app-6575597974-ndxx5   1/1     Running   0          5m
+pod/pranav-app-6575597974-ls47x   1/1     Running   0          5m
 
 NAME                         TYPE        CLUSTER-IP       PORT(S)   AGE
-service/cloudnexus-service   ClusterIP   10.110.184.237   80/TCP    5m
+service/pranav-app-service   ClusterIP   10.107.143.103   80/TCP    5m
 
 NAME                         READY   UP-TO-DATE   AVAILABLE   AGE
-deployment.apps/cloudnexus   3/3     3            3           5m
+deployment.apps/pranav-app   2/2     2            2           5m
 
 NAME                                             REFERENCE               TARGETS                        MINPODS   MAXPODS   REPLICAS
-horizontalpodautoscaler.autoscaling/cloudnexus   Deployment/cloudnexus   cpu: 2%/70%, memory: 76%/80%   2         10        3
+horizontalpodautoscaler.autoscaling/pranav-app   Deployment/pranav-app   cpu: 2%/70%, memory: 56%/80%   2         10        2
 
 NAME                                   STATUS   VOLUME                                     CAPACITY   ACCESS MODES
-persistentvolumeclaim/cloudnexus-pvc   Bound    pvc-e321f92f-aa9b-4bca-96d2-e10278619d7d   1Gi        RWO
+persistentvolumeclaim/pranav-app-pvc   Bound    pvc-4cd7d5c8-d22a-46ca-9b47-b3b0d4a38624   1Gi        RWO
 ```
 
-![Kubernetes Cluster State](/home/pranav/Documents/DevOps_assignment/final-devops-project/screenshots/06_kubernetes_prod_cluster_state.png)
+### Verified Live API Payload
+```bash
+curl http://127.0.0.1:3000/
+# -> {"service":"Pranav DevOps Platform API","author":"Pranav Gupta","version":"1.0.0","environment":"production","hostname":"pranav-app-6575597974-ndxx5","uptime_seconds":26,"status":"OPERATIONAL"}
+```
+
+![Kubernetes Cluster State](screenshots/06_kubernetes_prod_cluster_state.png)
 
 ---
 
 ## 8. CI/CD & DevSecOps Pipeline
 
-The automated pipeline configured in [.github/workflows/final-pipeline.yml](file:///home/pranav/Documents/DevOps_assignment/final-devops-project/.github/workflows/final-pipeline.yml) executes across 5 stages:
+The automated pipeline configured in [.github/workflows/final-pipeline.yml](.github/workflows/final-pipeline.yml) executes across 5 stages:
 
 ```mermaid
 graph LR
@@ -351,35 +364,35 @@ graph LR
 - **SAST (Semgrep)**: Verifies that no unsafe `eval()`, dynamic command execution, or unvalidated inputs exist.
 - **SCA (Trivy Filesystem)**: Validates third-party packages in `package-lock.json` against known CVEs.
 - **Container Scanning (Trivy Image)**: Scans compiled container image. Fails build if any `CRITICAL` or `HIGH` vulnerabilities exist.
-- **Quality Gates**: Machine-enforced via [security/security-gate-policy.json](file:///home/pranav/Documents/DevOps_assignment/final-devops-project/security/security-gate-policy.json).
+- **Quality Gates**: Machine-enforced via [security/security-gate-policy.json](security/security-gate-policy.json).
 
 ```bash
 ./final-devops-project/security/run-security-audit.sh
 ```
 
-![DevSecOps Audit](/home/pranav/Documents/DevOps_assignment/final-devops-project/screenshots/02_devsecops_security_scan.png)
+![DevSecOps Audit](screenshots/02_devsecops_security_scan.png)
 
 ---
 
 ## 9. Monitoring, Observability & GitOps
 
 ### Monitoring Infrastructure
-- **Metrics Endpoint**: Exposed at `/metrics` conforming to Prometheus exposition format.
-- **ServiceMonitor**: Configured in [monitoring/service-monitor.yaml](file:///home/pranav/Documents/DevOps_assignment/final-devops-project/monitoring/service-monitor.yaml) to scrape pod endpoints every 15 seconds.
-- **Alert Rules**: Configured in [monitoring/alert-rules.yaml](file:///home/pranav/Documents/DevOps_assignment/final-devops-project/monitoring/alert-rules.yaml) alerting on `HighErrorRate (>5%)`, `PodCrashLooping (>2 restarts)`, and `HighLatency (P95 > 1s)`.
-- **Grafana Dashboard**: Full dashboard spec in [monitoring/cloudnexus-grafana-dashboard.json](file:///home/pranav/Documents/DevOps_assignment/final-devops-project/monitoring/cloudnexus-grafana-dashboard.json).
+- **Metrics Endpoint**: Exposed at `/metrics` conforming to Prometheus exposition format with `pranav_uptime_seconds` and `pranav_http_requests_total`.
+- **ServiceMonitor**: Configured in [monitoring/service-monitor.yaml](monitoring/service-monitor.yaml) to scrape pod endpoints every 15 seconds.
+- **Alert Rules**: Configured in [monitoring/alert-rules.yaml](monitoring/alert-rules.yaml) alerting on `HighErrorRate (>5%)`, `PodCrashLooping (>2 restarts)`, and `HighLatency (P95 > 1s)`.
+- **Grafana Dashboard**: Full dashboard spec in [monitoring/pranav-grafana-dashboard.json](monitoring/pranav-grafana-dashboard.json).
 
-![Prometheus Metrics](/home/pranav/Documents/DevOps_assignment/final-devops-project/screenshots/07_monitoring_metrics_prometheus.png)
+![Prometheus Metrics](screenshots/07_monitoring_metrics_prometheus.png)
 
 ### GitOps Workflow (ArgoCD)
 - **Declarative Source of Truth**: The Git repository defines the exact cluster state.
-- **Reconciliation Engine**: Automated reconciliation in [gitops/application.yaml](file:///home/pranav/Documents/DevOps_assignment/final-devops-project/gitops/application.yaml) with `prune: true` and `selfHeal: true`.
+- **Reconciliation Engine**: Automated reconciliation in [gitops/application.yaml](gitops/application.yaml) (`pranav-production`) with `prune: true` and `selfHeal: true`.
 - **Continuous Sync Simulation**:
 ```bash
 ./final-devops-project/gitops/gitops-sync-simulation.sh
 ```
 
-![GitOps Sync](/home/pranav/Documents/DevOps_assignment/final-devops-project/screenshots/08_gitops_reconciliation_argocd.png)
+![GitOps Sync](screenshots/08_gitops_reconciliation_argocd.png)
 
 ---
 
@@ -393,15 +406,15 @@ As mandated in the final challenge, 4 intentional failure scenarios were injecte
 | **#1** | `CrashLoopBackOff` | `kubectl logs pod/<name>` | Mandatory `DB_PASSWORD` missing from environment | Injected `DB_PASSWORD` via Secret reference | Pod reached `1/1 Running` |
 | **#2** | `ImagePullBackOff` | `kubectl get events` | Non-existent image tag `v9.9.99-nonexistent` | Corrected image tag to `1.0.0` in Helm values | Image pulled & unpacked |
 | **#3** | `Readiness 0/1 Unready` | `kubectl describe pod` | Readiness probe path misconfigured to `/invalid-path` | Updated probe path to `/ready` | HTTP 200 returned, `1/1 Ready` |
-| **#4** | `Empty Endpoints (<none>)` | `kubectl get endpoints` | Service selector `app: wrong` mismatched pod labels | Aligned selector to `app.kubernetes.io/name` | Endpoints populated with 3 Pod IPs |
+| **#4** | `Empty Endpoints (<none>)` | `kubectl get endpoints` | Service selector `app: wrong` mismatched pod labels | Aligned selector to `app.kubernetes.io/name: pranav-app` | Endpoints populated with Pod IPs |
 
 ### Detailed Troubleshooting Investigation
 
 #### Scenario 1: `CrashLoopBackOff` (Missing Database Secret)
 - **Problem Statement**: Newly deployed Pod transitions into `CrashLoopBackOff` with exit code 1.
 - **Investigation Steps**:
-  1. `kubectl get pods -n cloudnexus-prod` shows `CrashLoopBackOff`.
-  2. `kubectl logs cloudnexus-troubleshoot-crashloop-xxx` displays:
+  1. `kubectl get pods -n pranav-prod` shows `CrashLoopBackOff`.
+  2. `kubectl logs pod/pranav-troubleshoot-crashloop-xxx` displays:
      ```
      FATAL: Mandatory database secret 'DB_PASSWORD' is missing or unconfigured! Process exiting.
      ```
@@ -412,20 +425,20 @@ As mandated in the final challenge, 4 intentional failure scenarios were injecte
 #### Scenario 2: `ImagePullBackOff` / `ErrImagePull`
 - **Problem Statement**: Pod remains in `ImagePullBackOff`.
 - **Investigation Steps**:
-  1. `kubectl describe pod cloudnexus-troubleshoot-imagepull-xxx` reveals:
+  1. `kubectl describe pod pranav-troubleshoot-imagepull-xxx` reveals:
      ```
-     Failed to pull image "cloudnexus:v9.9.99-nonexistent": repository does not exist or access denied
+     Failed to pull image "pranav-app:v9.9.99-nonexistent": repository does not exist or access denied
      ```
 - **Root Cause**: The release tag `v9.9.99-nonexistent` does not exist in the registry.
 - **Solution**: Patched the deployment specification to reference certified image tag `1.0.0`.
 - **Verification**: Kubelet successfully pulled the image and launched the container.
 
-![Troubleshooting 1 & 2](/home/pranav/Documents/DevOps_assignment/final-devops-project/screenshots/09_troubleshooting_crashloop_investigation.png)
+![Troubleshooting 1 & 2](screenshots/09_troubleshooting_crashloop_investigation.png)
 
 #### Scenario 3: Readiness Probe Failure (`0/1 Ready`)
 - **Problem Statement**: Pod stays in `Running` state but remains `0/1 Ready`, preventing traffic from being forwarded.
 - **Investigation Steps**:
-  1. `kubectl describe pod cloudnexus-troubleshoot-probe-xxx` events section shows:
+  1. `kubectl describe pod pranav-troubleshoot-probe-xxx` events section shows:
      ```
      Warning Unhealthy: Readiness probe failed: HTTP probe failed with statuscode: 404
      ```
@@ -436,14 +449,14 @@ As mandated in the final challenge, 4 intentional failure scenarios were injecte
 #### Scenario 4: Service Connectivity Failure (Empty Endpoints)
 - **Problem Statement**: Requests to Service return HTTP 503; Service endpoints list is completely empty (`<none>`).
 - **Investigation Steps**:
-  1. `kubectl get endpoints cloudnexus-troubleshoot-service` returned `<none>`.
-  2. Inspected labels with `kubectl get pods --show-labels`. Pods were labeled `app.kubernetes.io/name=cloudnexus`.
-  3. Inspected Service selector with `kubectl describe svc cloudnexus-troubleshoot-service`. Selector was `app=wrong-nonexistent-selector`.
+  1. `kubectl get endpoints pranav-troubleshoot-service` returned `<none>`.
+  2. Inspected labels with `kubectl get pods --show-labels`. Pods were labeled `app.kubernetes.io/name=pranav-app`.
+  3. Inspected Service selector with `kubectl describe svc pranav-troubleshoot-service`. Selector was `app=wrong-nonexistent-selector`.
 - **Root Cause**: Label selector mismatch between Service and Pod template.
-- **Solution**: Aligned Service `spec.selector` to match `app.kubernetes.io/name: cloudnexus`.
-- **Verification**: Endpoints instantly attached to all 3 healthy pod IPs.
+- **Solution**: Aligned Service `spec.selector` to match `app.kubernetes.io/name: pranav-app`.
+- **Verification**: Endpoints instantly attached to all healthy pod IPs.
 
-![Troubleshooting 3 & 4](/home/pranav/Documents/DevOps_assignment/final-devops-project/screenshots/10_troubleshooting_probes_and_networking.png)
+![Troubleshooting 3 & 4](screenshots/10_troubleshooting_probes_and_networking.png)
 
 ### Automated Drill Execution Script
 Run all 4 drills automatically to demonstrate before/after behavior:
@@ -455,18 +468,18 @@ Run all 4 drills automatically to demonstrate before/after behavior:
 
 ## 11. Screenshot Gallery
 
-| Stage | Description | Image Preview |
+| Stage | Description | Image Preview (Click to Enlarge) |
 | :--- | :--- | :--- |
-| **01** | CI Pipeline & Jest Code Coverage | ![Stage 1](/home/pranav/Documents/DevOps_assignment/final-devops-project/screenshots/01_pipeline_build_test.png) |
-| **02** | DevSecOps SAST, SCA & Secret Gates | ![Stage 2](/home/pranav/Documents/DevOps_assignment/final-devops-project/screenshots/02_devsecops_security_scan.png) |
-| **03** | Multi-Stage Hardened Docker Build | ![Stage 3](/home/pranav/Documents/DevOps_assignment/final-devops-project/screenshots/03_docker_multistage_build.png) |
-| **04** | Terraform AWS Cloud Infrastructure | ![Stage 4](/home/pranav/Documents/DevOps_assignment/final-devops-project/screenshots/04_terraform_iac_infrastructure.png) |
-| **05** | Helm Chart Lint & Release Management | ![Stage 5](/home/pranav/Documents/DevOps_assignment/final-devops-project/screenshots/05_helm_chart_deployment.png) |
-| **06** | Kubernetes Cluster State (Pods, PVC, HPA) | ![Stage 6](/home/pranav/Documents/DevOps_assignment/final-devops-project/screenshots/06_kubernetes_prod_cluster_state.png) |
-| **07** | Monitoring & Prometheus Golden Signals | ![Stage 7](/home/pranav/Documents/DevOps_assignment/final-devops-project/screenshots/07_monitoring_metrics_prometheus.png) |
-| **08** | GitOps Reconciliation Loop (ArgoCD) | ![Stage 8](/home/pranav/Documents/DevOps_assignment/final-devops-project/screenshots/08_gitops_reconciliation_argocd.png) |
-| **09** | Troubleshooting Drills 1 & 2 | ![Stage 9](/home/pranav/Documents/DevOps_assignment/final-devops-project/screenshots/09_troubleshooting_crashloop_investigation.png) |
-| **10** | Troubleshooting Drills 3 & 4 | ![Stage 10](/home/pranav/Documents/DevOps_assignment/final-devops-project/screenshots/10_troubleshooting_probes_and_networking.png) |
+| **01** | CI Pipeline & Jest Code Coverage | [![Stage 1](screenshots/01_pipeline_build_test.png)](screenshots/01_pipeline_build_test.png) |
+| **02** | DevSecOps SAST, SCA & Secret Gates | [![Stage 2](screenshots/02_devsecops_security_scan.png)](screenshots/02_devsecops_security_scan.png) |
+| **03** | Multi-Stage Hardened Docker Build | [![Stage 3](screenshots/03_docker_multistage_build.png)](screenshots/03_docker_multistage_build.png) |
+| **04** | Terraform AWS Cloud Infrastructure | [![Stage 4](screenshots/04_terraform_iac_infrastructure.png)](screenshots/04_terraform_iac_infrastructure.png) |
+| **05** | Helm Chart Lint & Release Management | [![Stage 5](screenshots/05_helm_chart_deployment.png)](screenshots/05_helm_chart_deployment.png) |
+| **06** | Kubernetes Cluster State (Pods, PVC, HPA) | [![Stage 6](screenshots/06_kubernetes_prod_cluster_state.png)](screenshots/06_kubernetes_prod_cluster_state.png) |
+| **07** | Monitoring & Prometheus Golden Signals | [![Stage 7](screenshots/07_monitoring_metrics_prometheus.png)](screenshots/07_monitoring_metrics_prometheus.png) |
+| **08** | GitOps Reconciliation Loop (ArgoCD) | [![Stage 8](screenshots/08_gitops_reconciliation_argocd.png)](screenshots/08_gitops_reconciliation_argocd.png) |
+| **09** | Troubleshooting Drills 1 & 2 | [![Stage 9](screenshots/09_troubleshooting_crashloop_investigation.png)](screenshots/09_troubleshooting_crashloop_investigation.png) |
+| **10** | Troubleshooting Drills 3 & 4 | [![Stage 10](screenshots/10_troubleshooting_probes_and_networking.png)](screenshots/10_troubleshooting_probes_and_networking.png) |
 
 ---
 

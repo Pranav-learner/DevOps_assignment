@@ -1,4 +1,4 @@
-name: CloudNexus End-to-End DevSecOps & GitOps Pipeline
+name: Pranav End-to-End DevSecOps & GitOps Pipeline
 
 on:
   push:
@@ -9,7 +9,7 @@ on:
 
 env:
   REGISTRY: ghcr.io
-  IMAGE_NAME: ${{ github.repository }}/cloudnexus
+  IMAGE_NAME: ${{ github.repository }}/pranav
   APP_DIR: final-devops-project/application
 
 jobs:
@@ -165,10 +165,10 @@ jobs:
         with:
           version: v3.14.0
 
-      - name: Lint CloudNexus Helm Chart
+      - name: Lint Pranav Helm Chart
         run: |
-          helm lint final-devops-project/helm/cloudnexus
-          helm template cloudnexus final-devops-project/helm/cloudnexus > /dev/null
+          helm lint final-devops-project/helm/pranav
+          helm template pranav final-devops-project/helm/pranav > /dev/null
 
   # ---------------------------------------------------------------------------
   # 5. GITOPS CONTINUOUS DEPLOYMENT TRIGGER
@@ -185,13 +185,13 @@ jobs:
       - name: Update GitOps Deployment Tag
         run: |
           echo "Updating GitOps repository image tag to: ${{ github.sha }}"
-          sed -i 's|tag: ".*"|tag: "${{ github.sha }}"|' final-devops-project/helm/cloudnexus/values.yaml
+          sed -i 's|tag: ".*"|tag: "${{ github.sha }}"|' final-devops-project/helm/pranav/values.yaml
 
       - name: Commit & Push GitOps State Update
         run: |
           git config user.name "github-actions[bot]"
           git config user.email "github-actions[bot]@users.noreply.github.com"
-          git add final-devops-project/helm/cloudnexus/values.yaml
+          git add final-devops-project/helm/pranav/values.yaml
           if git diff --staged --quiet; then
             echo "No GitOps changes to commit."
           else

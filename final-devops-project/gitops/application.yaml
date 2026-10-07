@@ -1,7 +1,7 @@
 apiVersion: argoproj.io/v1alpha1
 kind: Application
 metadata:
-  name: cloudnexus-production
+  name: pranav-production
   namespace: argocd
   labels:
     env: production
@@ -11,13 +11,13 @@ spec:
   source:
     repoURL: https://github.com/Pranav-learner/DevOps_assignment.git
     targetRevision: main
-    path: final-devops-project/helm/cloudnexus
+    path: final-devops-project/helm/pranav-app
     helm:
       valueFiles:
         - values.yaml
   destination:
     server: https://kubernetes.default.svc
-    namespace: cloudnexus-prod
+    namespace: pranav-prod
   syncPolicy:
     automated:
       prune: true

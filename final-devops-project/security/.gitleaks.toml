@@ -1,4 +1,4 @@
-title = "CloudNexus DevSecOps Secret Scanning Configuration"
+title = "Pranav DevSecOps Secret Scanning Configuration"
 
 [extend]
 useDefault = true
@@ -15,13 +15,13 @@ regexes = [
 ]
 
 [[rules]]
-id = "cloudnexus-jwt-secret"
-description = "CloudNexus JWT Secret Signature Key"
-regex = '''(?i)(?:cloudnexus|jwt)_(?:secret|key|token)\s*[:=]\s*['\"][A-Za-z0-9-_]{16,}['\"]'''
+id = "pranav-jwt-secret"
+description = "Pranav JWT Secret Signature Key"
+regex = '''(?i)(?:pranav|jwt)_(?:secret|key|token)\s*[:=]\s*['\"][A-Za-z0-9-_]{16,}['\"]'''
 tags = ["jwt", "authentication", "high-entropy"]
 
 [[rules]]
-id = "cloudnexus-database-credential"
+id = "pranav-database-credential"
 description = "Database connection password pattern"
 regex = '''(?i)(?:db_password|database_password)\s*[:=]\s*['\"][A-Za-z0-9!@#$%^&*()_+]{8,}['\"]'''
 tags = ["database", "credentials"]

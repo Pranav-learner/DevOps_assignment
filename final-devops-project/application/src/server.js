@@ -7,7 +7,7 @@ const path = require('path');
 
 const app = express();
 const PORT = process.env.PORT || 3000;
-const DATA_DIR = process.env.DATA_DIR || path.join(os.tmpdir(), 'cloudnexus-data');
+const DATA_DIR = process.env.DATA_DIR || path.join(os.tmpdir(), 'pranav-data');
 
 // Security middleware
 app.use(helmet());
@@ -56,7 +56,8 @@ app.use((req, res, next) => {
 // Root Information
 app.get('/', (req, res) => {
   res.json({
-    service: 'CloudNexus Platform API',
+    service: 'Pranav DevOps Platform API',
+    author: 'Pranav Gupta',
     version: '1.0.0',
     environment: process.env.APP_ENV || 'production',
     hostname: os.hostname(),
@@ -78,7 +79,7 @@ app.get('/healthz', (req, res) => {
 // Readiness Probe Endpoint
 app.get('/ready', (req, res) => {
   if (isReady) {
-    res.status(200).json({ status: 'READY', service: 'CloudNexus Platform' });
+    res.status(200).json({ status: 'READY', service: 'Pranav DevOps Platform' });
   } else {
     res.status(503).json({ status: 'NOT_READY', reason: 'Service warmup in progress' });
   }
@@ -88,25 +89,25 @@ app.get('/ready', (req, res) => {
 app.get('/metrics', (req, res) => {
   const mem = process.memoryUsage();
   let text = '';
-  text += '# HELP cloudnexus_uptime_seconds Total application uptime in seconds\n';
-  text += '# TYPE cloudnexus_uptime_seconds gauge\n';
-  text += `cloudnexus_uptime_seconds ${Math.floor(process.uptime())}\n\n`;
+  text += '# HELP pranav_uptime_seconds Total application uptime in seconds\n';
+  text += '# TYPE pranav_uptime_seconds gauge\n';
+  text += `pranav_uptime_seconds ${Math.floor(process.uptime())}\n\n`;
 
-  text += '# HELP cloudnexus_memory_rss_bytes Resident Set Size in bytes\n';
-  text += '# TYPE cloudnexus_memory_rss_bytes gauge\n';
-  text += `cloudnexus_memory_rss_bytes ${mem.rss}\n\n`;
+  text += '# HELP pranav_memory_rss_bytes Resident Set Size in bytes\n';
+  text += '# TYPE pranav_memory_rss_bytes gauge\n';
+  text += `pranav_memory_rss_bytes ${mem.rss}\n\n`;
 
-  text += '# HELP cloudnexus_http_requests_total Total HTTP requests handled\n';
-  text += '# TYPE cloudnexus_http_requests_total counter\n';
+  text += '# HELP pranav_http_requests_total Total HTTP requests handled\n';
+  text += '# TYPE pranav_http_requests_total counter\n';
   for (const [route, count] of Object.entries(metrics.requestsTotal)) {
     const [method, routePath] = route.split(' ');
-    text += `cloudnexus_http_requests_total{method="${method}",path="${routePath}"} ${count}\n`;
+    text += `pranav_http_requests_total{method="${method}",path="${routePath}"} ${count}\n`;
   }
   text += '\n';
 
-  text += '# HELP cloudnexus_http_errors_total Total 5xx server errors\n';
-  text += '# TYPE cloudnexus_http_errors_total counter\n';
-  text += `cloudnexus_http_errors_total ${metrics.errorsTotal}\n`;
+  text += '# HELP pranav_http_errors_total Total 5xx server errors\n';
+  text += '# TYPE pranav_http_errors_total counter\n';
+  text += `pranav_http_errors_total ${metrics.errorsTotal}\n`;
 
   res.set('Content-Type', 'text/plain; version=0.0.4; charset=utf-8');
   res.send(text);
@@ -159,7 +160,7 @@ if (process.env.NODE_ENV !== 'test') {
     console.log(JSON.stringify({
       timestamp: new Date().toISOString(),
       level: 'INFO',
-      message: `CloudNexus Platform Server running on port ${PORT}`,
+      message: `Pranav DevOps Platform Server running on port ${PORT}`,
       env: process.env.APP_ENV || 'production'
     }));
   });

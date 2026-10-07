@@ -1,14 +1,14 @@
 apiVersion: argoproj.io/v1alpha1
 kind: AppProject
 metadata:
-  name: cloudnexus-project
+  name: pranav-app-project
   namespace: argocd
 spec:
-  description: "CloudNexus Production GitOps Management Project"
+  description: "Pranav Production GitOps Management Project"
   sourceRepos:
     - "https://github.com/Pranav-learner/DevOps_assignment.git"
   destinations:
-    - namespace: cloudnexus-prod
+    - namespace: pranav-prod
       server: https://kubernetes.default.svc
   clusterResourceWhitelist:
     - group: ""

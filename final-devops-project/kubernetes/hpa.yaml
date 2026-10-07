@@ -1,15 +1,15 @@
 apiVersion: autoscaling/v2
 kind: HorizontalPodAutoscaler
 metadata:
-  name: cloudnexus-hpa
-  namespace: cloudnexus-prod
+  name: pranav-app-hpa
+  namespace: pranav-prod
   labels:
-    app: cloudnexus-api
+    app: pranav-app-api
 spec:
   scaleTargetRef:
     apiVersion: apps/v1
     kind: Deployment
-    name: cloudnexus-deployment
+    name: pranav-app-deployment
   minReplicas: 2
   maxReplicas: 10
   metrics:

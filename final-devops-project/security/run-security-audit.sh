@@ -2,7 +2,7 @@
 set -eo pipefail
 
 echo "=========================================================="
-echo " CloudNexus DevSecOps Security Audit & Gate Evaluation"
+echo " Pranav DevSecOps Security Audit & Gate Evaluation"
 echo "=========================================================="
 
 AUDIT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"

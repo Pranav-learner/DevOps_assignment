@@ -38,7 +38,6 @@ session-18-terraform-iac/
 │   ├── 07-terraform-destroy.png     # Automated teardown (4 resources destroyed)
 │   └── 08-terraform-clean-verification.png # Verification of zero lingering state
 │
-├── generate_screenshot.py           # Automated terminal output capture & renderer
 └── README.md                        # Master Session 18 Overview Document
 ```
 

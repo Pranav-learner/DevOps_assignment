@@ -1,23 +1,23 @@
 apiVersion: networking.k8s.io/v1
 kind: Ingress
 metadata:
-  name: cloudnexus-ingress
-  namespace: cloudnexus-prod
+  name: pranav-app-ingress
+  namespace: pranav-prod
   labels:
-    app: cloudnexus-api
+    app: pranav-app-api
   annotations:
     nginx.ingress.kubernetes.io/rewrite-target: /
     nginx.ingress.kubernetes.io/ssl-redirect: "false"
 spec:
   ingressClassName: nginx
   rules:
-    - host: cloudnexus.local
+    - host: pranav-app.local
       http:
         paths:
           - path: /
             pathType: Prefix
             backend:
               service:
-                name: cloudnexus-service
+                name: pranav-app-service
                 port:
                   number: 80

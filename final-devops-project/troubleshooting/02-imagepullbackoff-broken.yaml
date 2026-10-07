@@ -1,8 +1,8 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: cloudnexus-troubleshoot-imagepull
-  namespace: cloudnexus-prod
+  name: pranav-troubleshoot-imagepull
+  namespace: pranav-prod
   labels:
     app: troubleshoot-2
 spec:
@@ -18,7 +18,7 @@ spec:
       containers:
         - name: app
           # INTENTIONAL BUG: Non-existent image tag triggers ErrImagePull / ImagePullBackOff
-          image: cloudnexus:v9.9.99-nonexistent
+          image: pranav:v9.9.99-nonexistent
           imagePullPolicy: IfNotPresent
           env:
             - name: DB_PASSWORD
