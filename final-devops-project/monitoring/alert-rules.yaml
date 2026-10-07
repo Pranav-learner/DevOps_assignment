@@ -1,0 +1,51 @@
+apiVersion: monitoring.coreos.com/v1
+kind: PrometheusRule
+metadata:
+  name: cloudnexus-alert-rules
+  namespace: cloudnexus-prod
+  labels:
+    app.kubernetes.io/name: cloudnexus
+    role: alert-rules
+spec:
+  groups:
+    - name: cloudnexus.rules
+      rules:
+        - alert: CloudNexusHighErrorRate
+          expr: (rate(http_requests_total{status=~"5.."}[5m]) / rate(http_requests_total[5m])) * 100 > 5
+          for: 2m
+          labels:
+            severity: critical
+            team: platform-sre
+          annotations:
+            summary: "High HTTP 5xx error rate on CloudNexus"
+            description: "CloudNexus is experiencing {{ $value }}% 5xx errors for more than 2 minutes."
+
+        - alert: CloudNexusPodCrashLooping
+          expr: rate(kube_pod_container_status_restarts_total{namespace="cloudnexus-prod"}[10m]) * 60 > 2
+          for: 5m
+          labels:
+            severity: critical
+            team: platform-sre
+          annotations:
+            summary: "CloudNexus Pod is restarting frequently"
+            description: "Pod {{ $labels.pod }} restarted more than 2 times in 10 minutes."
+
+        - alert: CloudNexusHighLatency
+          expr: histogram_quantile(0.95, sum(rate(http_request_duration_seconds_bucket[5m])) by (le)) > 1.0
+          for: 3m
+          labels:
+            severity: warning
+            team: platform-sre
+          annotations:
+            summary: "High 95th percentile latency"
+            description: "P95 latency is {{ $value }}s, exceeding 1.0s threshold."
+
+        - alert: CloudNexusHighMemoryUtilization
+          expr: (container_memory_working_set_bytes{container="cloudnexus"} / container_spec_memory_limit_bytes{container="cloudnexus"}) * 100 > 85
+          for: 5m
+          labels:
+            severity: warning
+            team: platform-sre
+          annotations:
+            summary: "Container memory threshold exceeded"
+            description: "CloudNexus container memory usage is at {{ $value }}% of limit."

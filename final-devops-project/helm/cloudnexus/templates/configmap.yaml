@@ -1,0 +1,13 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: {{ include "cloudnexus.fullname" . }}-config
+  labels:
+    {{- include "cloudnexus.labels" . | nindent 4 }}
+data:
+  APP_ENV: {{ .Values.env.APP_ENV | quote }}
+  LOG_LEVEL: {{ .Values.env.LOG_LEVEL | quote }}
+  ENABLE_METRICS: {{ .Values.env.ENABLE_METRICS | quote }}
+  CACHE_TTL: {{ .Values.env.CACHE_TTL | quote }}
+  PORT: {{ .Values.service.targetPort | quote }}
+  DATA_DIR: "/data"

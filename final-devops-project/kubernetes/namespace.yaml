@@ -1,0 +1,8 @@
+apiVersion: v1
+kind: Namespace
+metadata:
+  name: cloudnexus-prod
+  labels:
+    name: cloudnexus-prod
+    environment: production
+    managed-by: devops-platform

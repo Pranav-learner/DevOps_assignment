@@ -1,0 +1,112 @@
+{
+  "annotations": {
+    "list": []
+  },
+  "editable": true,
+  "fiscalYearStartMonth": 0,
+  "graphTooltip": 1,
+  "id": null,
+  "links": [],
+  "liveNow": false,
+  "panels": [
+    {
+      "collapsed": false,
+      "gridPos": { "h": 1, "w": 24, "x": 0, "y": 0 },
+      "id": 1,
+      "title": "Application Golden Signals",
+      "type": "row"
+    },
+    {
+      "datasource": "Prometheus",
+      "fieldConfig": { "defaults": { "unit": "reqps" } },
+      "gridPos": { "h": 7, "w": 8, "x": 0, "y": 1 },
+      "id": 2,
+      "title": "HTTP Request Throughput (RPS)",
+      "type": "timeseries",
+      "targets": [
+        {
+          "expr": "sum(rate(cloudnexus_http_requests_total[1m])) by (method, route)",
+          "legendFormat": "{{method}} {{route}}"
+        }
+      ]
+    },
+    {
+      "datasource": "Prometheus",
+      "fieldConfig": { "defaults": { "unit": "s" } },
+      "gridPos": { "h": 7, "w": 8, "x": 8, "y": 1 },
+      "id": 3,
+      "title": "P95 Request Latency",
+      "type": "timeseries",
+      "targets": [
+        {
+          "expr": "histogram_quantile(0.95, sum(rate(cloudnexus_http_request_duration_seconds_bucket[5m])) by (le))",
+          "legendFormat": "p95 latency"
+        }
+      ]
+    },
+    {
+      "datasource": "Prometheus",
+      "fieldConfig": { "defaults": { "unit": "percent" } },
+      "gridPos": { "h": 7, "w": 8, "x": 16, "y": 1 },
+      "id": 4,
+      "title": "HTTP 5xx Error Rate",
+      "type": "timeseries",
+      "targets": [
+        {
+          "expr": "(sum(rate(cloudnexus_http_requests_total{status=~\"5..\"}[5m])) / sum(rate(cloudnexus_http_requests_total[5m]))) * 100",
+          "legendFormat": "5xx error %"
+        }
+      ]
+    },
+    {
+      "collapsed": false,
+      "gridPos": { "h": 1, "w": 24, "x": 0, "y": 8 },
+      "id": 5,
+      "title": "Infrastructure & Pod Health",
+      "type": "row"
+    },
+    {
+      "datasource": "Prometheus",
+      "fieldConfig": { "defaults": { "unit": "short" } },
+      "gridPos": { "h": 6, "w": 12, "x": 0, "y": 9 },
+      "id": 6,
+      "title": "Active Pod Replicas vs Desired",
+      "type": "timeseries",
+      "targets": [
+        {
+          "expr": "kube_deployment_status_replicas_available{deployment=\"cloudnexus\"}",
+          "legendFormat": "Available Pods"
+        },
+        {
+          "expr": "kube_deployment_spec_replicas{deployment=\"cloudnexus\"}",
+          "legendFormat": "Desired Pods"
+        }
+      ]
+    },
+    {
+      "datasource": "Prometheus",
+      "fieldConfig": { "defaults": { "unit": "bytes" } },
+      "gridPos": { "h": 6, "w": 12, "x": 12, "y": 9 },
+      "id": 7,
+      "title": "Pod Memory Usage (RSS)",
+      "type": "timeseries",
+      "targets": [
+        {
+          "expr": "sum(container_memory_working_set_bytes{container=\"cloudnexus\"}) by (pod)",
+          "legendFormat": "{{pod}}"
+        }
+      ]
+    }
+  ],
+  "refresh": "10s",
+  "schemaVersion": 38,
+  "style": "dark",
+  "tags": ["cloudnexus", "kubernetes", "devops"],
+  "time": {
+    "from": "now-30m",
+    "to": "now"
+  },
+  "title": "CloudNexus Production Dashboard",
+  "uid": "cloudnexus-prod-overview",
+  "version": 1
+}

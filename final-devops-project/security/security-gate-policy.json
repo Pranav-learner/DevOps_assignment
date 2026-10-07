@@ -1,0 +1,46 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "policyName": "CloudNexus Production Deployment Quality & Security Gate",
+  "version": "1.0.0",
+  "lastUpdated": "2026-10-07",
+  "enforcementMode": "blocking",
+  "gates": {
+    "unitTests": {
+      "minCoveragePercent": 80.0,
+      "maxFailedTests": 0,
+      "enforceAllPassing": true
+    },
+    "secretScanning": {
+      "tool": "Gitleaks",
+      "allowedLeaks": 0,
+      "blockOnDetect": true
+    },
+    "sastScanning": {
+      "tool": "Semgrep",
+      "maxCriticalFindings": 0,
+      "maxHighFindings": 0,
+      "blockOnRuleSeverity": ["ERROR", "CRITICAL"]
+    },
+    "scaScanning": {
+      "tool": "Trivy Filesystem",
+      "maxCriticalVulnerabilities": 0,
+      "maxHighVulnerabilities": 0,
+      "ignoreUnfixed": true
+    },
+    "containerScanning": {
+      "tool": "Trivy Container Image",
+      "maxCriticalVulnerabilities": 0,
+      "maxHighVulnerabilities": 0,
+      "allowedBaseImages": [
+        "node:22-alpine",
+        "alpine:3.20"
+      ],
+      "enforceNonRootUser": true
+    },
+    "iacScanning": {
+      "tool": "Tfsec / Checkov",
+      "blockOnMisconfigurations": true,
+      "maxHighMisconfigurations": 0
+    }
+  }
+}

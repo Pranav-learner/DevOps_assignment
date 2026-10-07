@@ -1,0 +1,4 @@
+# Trivy Vulnerability Ignore File
+# Format: CVE-ID (optional comment explaining waiver, expiration, or accepted business risk)
+# Example:
+# CVE-2023-99999 # Exp: 2026-12-31 | False positive: vendored development tool only

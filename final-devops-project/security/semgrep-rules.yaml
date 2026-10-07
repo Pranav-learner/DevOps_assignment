@@ -1,0 +1,27 @@
+rules:
+  - id: detect-hardcoded-api-secrets
+    patterns:
+      - pattern-either:
+          - pattern: const $KEY = "=SECRET="
+          - pattern: let $KEY = "=SECRET="
+          - pattern: var $KEY = "=SECRET="
+      - metavariable-regex:
+          metavariable: $KEY
+          regex: (?i)(api_key|token|auth_secret|private_key)
+    message: "Potential hardcoded secret assigned to variable $KEY. Use process.env instead."
+    severity: ERROR
+    languages: [javascript, typescript]
+
+  - id: prevent-eval-execution
+    patterns:
+      - pattern: eval(...)
+    message: "The use of eval() poses severe remote code execution (RCE) hazards."
+    severity: ERROR
+    languages: [javascript, typescript]
+
+  - id: prevent-unhandled-command-injection
+    patterns:
+      - pattern: child_process.exec($CMD, ...)
+    message: "Avoid dynamic shell execution with child_process.exec to prevent command injection."
+    severity: WARNING
+    languages: [javascript, typescript]

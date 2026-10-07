@@ -1,0 +1,27 @@
+title = "CloudNexus DevSecOps Secret Scanning Configuration"
+
+[extend]
+useDefault = true
+
+[allowlist]
+description = "Global allowlist for mock/test credentials"
+paths = [
+  '''final-devops-project/application/tests/''',
+  '''package-lock\.json'''
+]
+regexes = [
+  '''test-token''',
+  '''example-secret'''
+]
+
+[[rules]]
+id = "cloudnexus-jwt-secret"
+description = "CloudNexus JWT Secret Signature Key"
+regex = '''(?i)(?:cloudnexus|jwt)_(?:secret|key|token)\s*[:=]\s*['\"][A-Za-z0-9-_]{16,}['\"]'''
+tags = ["jwt", "authentication", "high-entropy"]
+
+[[rules]]
+id = "cloudnexus-database-credential"
+description = "Database connection password pattern"
+regex = '''(?i)(?:db_password|database_password)\s*[:=]\s*['\"][A-Za-z0-9!@#$%^&*()_+]{8,}['\"]'''
+tags = ["database", "credentials"]

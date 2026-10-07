@@ -1,0 +1,14 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: cloudnexus-troubleshoot-service
+  namespace: cloudnexus-prod
+spec:
+  type: ClusterIP
+  ports:
+    - port: 80
+      targetPort: 3000
+      name: http
+  selector:
+    # INTENTIONAL BUG: Mismatched label selector produces 0 endpoints (<none>)
+    app: wrong-nonexistent-selector

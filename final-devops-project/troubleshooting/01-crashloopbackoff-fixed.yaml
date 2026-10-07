@@ -1,0 +1,31 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: cloudnexus-troubleshoot-crashloop
+  namespace: cloudnexus-prod
+  labels:
+    app: troubleshoot-1
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: troubleshoot-1
+  template:
+    metadata:
+      labels:
+        app: troubleshoot-1
+    spec:
+      containers:
+        - name: app
+          image: cloudnexus:1.0.0
+          imagePullPolicy: IfNotPresent
+          env:
+            - name: PORT
+              value: "3000"
+            - name: APP_ENV
+              value: "production"
+            # REMEDIATION: Supply required DB_PASSWORD via secretKeyRef or environment variable
+            - name: DB_PASSWORD
+              value: "SuperSecretProductionPassword2026!"
+            - name: LOG_LEVEL
+              value: "info"
